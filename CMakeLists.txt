@@ -25,6 +25,8 @@ target_link_libraries(D3D11Framework dxguid)
 #Include all additional header files
 target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}/libraries/includes")
 
+target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
+
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET D3D11Framework PROPERTY CXX_STANDARD 20)
 endif()
