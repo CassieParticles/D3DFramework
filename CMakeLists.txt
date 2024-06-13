@@ -1,21 +1,30 @@
-﻿# CMakeList.txt : CMake project for D3D11Framework, include source and define
-# project specific logic here.
-#
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
+list(APPEND Engine "engine/exampleFile.cpp")
 
-project ("D3D11Framework")
+add_library(D3D11Framework ${Engine})
 
-# Add source to this project's executable.
-add_executable (D3D11Framework "D3D11Framework.cpp" "D3D11Framework.h")
+#Add GLFW for windows
+add_library(GLFW STATIC IMPORTED GLOBAL)
+set_property(TARGET GLFW PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/libraries/GLFW/glfw3.lib")
+target_link_libraries(D3D11Framework GLFW)
+
+#Add Direct3D11
+find_library("d3d11.lib" PATH "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("dxgi.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("d3dcompiler.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("winmm.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("dxguid.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+
+target_link_libraries(D3D11Framework d3d11)
+target_link_libraries(D3D11Framework dxgi)
+target_link_libraries(D3D11Framework d3dcompiler)
+target_link_libraries(D3D11Framework winmm)
+target_link_libraries(D3D11Framework dxguid)
+
+#Include all additional header files
+target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}/libraries/includes")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET D3D11Framework PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: Add tests and install targets if needed.
