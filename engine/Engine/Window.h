@@ -18,6 +18,11 @@ public:
 
 	bool getWindowShouldClose();
 
+	void clearBackBuffer(DirectX::XMFLOAT4 colour);
+	void presentBackBuffer();
+
+	void bindRTV();
+
 protected:
 	static Window* instance;
 

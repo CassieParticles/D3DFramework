@@ -1,4 +1,6 @@
 #include "Window.h"
+#include "Window.h"
+#include "Window.h"
 
 #include <iostream>
 #include <glfw3.h>
@@ -26,6 +28,19 @@ Window* Window::Instance()
 bool Window::getWindowShouldClose()
 {
 	return glfwWindowShouldClose(window);
+}
+
+void Window::clearBackBuffer(DirectX::XMFLOAT4 colour)
+{
+	glfwPollEvents();
+	float clearColour[4] = { colour.x,colour.y,colour.z,colour.w };
+	deviceContext->ClearRenderTargetView(renderTargetView.Get(), clearColour);
+	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.f, 0.f);
+}
+
+void Window::presentBackBuffer()
+{
+	swapChain->Present(0, DXGI_PRESENT_ALLOW_TEARING);
 }
 
 Window::Window(const std::string& windowTitle, int windowWidth, int windowHeight)
@@ -174,4 +189,14 @@ void Window::setSize(int widht, int height)
 void Window::handleResize(GLFWwindow* window, int width, int height)
 {
 	static_cast<Window*>(glfwGetWindowUserPointer(window))->setSize(width, height);
+}
+
+void Window::bindRTV()
+{
+	ID3D11RenderTargetView* renderTargetViews[1] = { renderTargetView.Get() };
+	deviceContext->OMSetRenderTargets(1, renderTargetViews, depthStencilView.Get());
+
+	D3D11_VIEWPORT port = { 0,0,width,height ,0,1 };
+
+	deviceContext->RSSetViewports(1, &port);
 }
