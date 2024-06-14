@@ -1,6 +1,4 @@
 #include "Window.h"
-#include "Window.h"
-#include "Window.h"
 
 #include <iostream>
 #include <glfw3.h>
@@ -9,11 +7,11 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <glfw3native.h>
 
-#include <engine/D3DObjects/RenderTarget.h>
+#include <engine/D3DObjects/D3DDevice.h>
 
 Window* Window::instance = nullptr;
 
-Window* Window::initializeWindow(const std::string& windowTitle, int windowWidth, int windowHeight)
+Window* Window::InitializeWindow(const std::string& windowTitle, int windowWidth, int windowHeight)
 {
 	if (instance == nullptr)
 	{
@@ -88,18 +86,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
-	//Set up the D3D device and device context
-	constexpr D3D_FEATURE_LEVEL deviceFeatureLevel = D3D_FEATURE_LEVEL_11_0;
-
-	//TODO: Add flags so this is not debug mode when compiled on release
-	constexpr D3D11_CREATE_DEVICE_FLAG debugFlag = D3D11_CREATE_DEVICE_DEBUG;
-
-	errorCode = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, debugFlag, &deviceFeatureLevel, 1, D3D11_SDK_VERSION, &device, nullptr, &deviceContext);
-	if (FAILED(errorCode))
-	{
-		std::cerr << "Failed to create device/device context\n";
-		return false;
-	}
+	device = D3DDevice::InitializeDevices();
 
 	//Create swapchain
 	//TODO: Allow user to change these
@@ -121,7 +108,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fullScreenDesc{};
 	fullScreenDesc.Windowed = true;
 
-	errorCode = factory->CreateSwapChainForHwnd(device.Get(), glfwGetWin32Window(window), &swapChainDesc, &fullScreenDesc, nullptr, &swapChain);
+	errorCode = factory->CreateSwapChainForHwnd(device->getDevice().Get(), glfwGetWin32Window(window), &swapChainDesc, &fullScreenDesc, nullptr, &swapChain);
 	if (FAILED(errorCode))
 	{
 		std::cerr << "Failed to create swapchain\n";
@@ -150,7 +137,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		0
 	};
 
-	errorCode = device->CreateTexture2D(&depthTexDesc, 0, &depthBuffer);
+	errorCode = device->getDevice()->CreateTexture2D(&depthTexDesc, 0, &depthBuffer);
 	if (FAILED(errorCode))
 	{
 		std::cerr << "Failed to create depth texture\n";
@@ -207,5 +194,5 @@ void Window::bindRTV()
 
 	D3D11_VIEWPORT port = { 0,0,width,height ,0,1 };
 
-	deviceContext->RSSetViewports(1, &port);
+	device->getDeviceContext()->RSSetViewports(1, &port);
 }

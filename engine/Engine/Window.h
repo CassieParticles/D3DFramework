@@ -9,20 +9,18 @@
 #include <engine/D3DObjects/RenderTarget.h>
 
 class GLFWwindow;
-class RenderTarget;
+class D3DDevice;
 
 class Window
 {
 	template <typename T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
-	static Window* initializeWindow(const std::string& windowTitle, int windowWidth, int windowHeight);
+	static Window* InitializeWindow(const std::string& windowTitle, int windowWidth, int windowHeight);
 	static Window* Instance();
 
 	bool getWindowShouldClose();
 
-	const ComPtr<ID3D11Device>& getDevice() { return device; }
-	const ComPtr<ID3D11DeviceContext>& getDeviceContext() { return deviceContext; }
 	const ComPtr<IDXGIFactory2>& getFactory() { return factory; }
 	const ComPtr<IDXGISwapChain1>& getSwapChain() { return swapChain; }
 	const ComPtr<ID3D11Texture2D> getBackBuffer() { return backBuffer; }
@@ -43,8 +41,9 @@ protected:
 	GLFWwindow* windowHandle;
 	
 	GLFWwindow* window;
-	ComPtr<ID3D11Device> device;
-	ComPtr<ID3D11DeviceContext> deviceContext;
+
+	D3DDevice* device;
+
 	ComPtr<IDXGIFactory2> factory;
 	ComPtr<IDXGISwapChain1> swapChain;
 
