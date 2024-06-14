@@ -9,7 +9,7 @@
 #include <engine/D3DObjects/RenderTarget.h>
 
 class GLFWwindow;
-class D3DDevice;
+class Device;
 
 class Window
 {
@@ -42,7 +42,7 @@ protected:
 	
 	GLFWwindow* window;
 
-	D3DDevice* device;
+	Device* device;
 
 	ComPtr<IDXGIFactory2> factory;
 	ComPtr<IDXGISwapChain1> swapChain;

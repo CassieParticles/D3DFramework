@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <engine/D3DObjects/D3DDevice.h>
+#include <engine/D3DObjects/Device.h>
 
 void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 clearColour)
 {
@@ -11,10 +11,8 @@ void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 cle
 		std::cout << "Maximum number of render targets bound already\n";
 		return;
 	}
-	std::cout << "1\n";
 
-	D3DDevice* device = D3DDevice::Instance();
-	std::cout << "2\n";
+	Device* device = Device::Instance();
 	
 	ComPtr<ID3D11RenderTargetView> rtv;
 
@@ -26,7 +24,6 @@ void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 cle
 		return;
 	}
 
-	std::cout << "3\n";
 	RTVs[RTVCount] = rtv;
 	renderTextures[RTVCount] = texture;
 	clearColours[RTVCount][0] = clearColour.x;
@@ -34,7 +31,6 @@ void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 cle
 	clearColours[RTVCount][2] = clearColour.z;
 	clearColours[RTVCount][3] = clearColour.w;
 	++RTVCount;
-	std::cout << "4\n";
 }
 
 void RenderTarget::addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, float defaultStencil)
@@ -49,7 +45,7 @@ void RenderTarget::addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, f
 	depthStencilViewDesc.Flags = 0;
 	depthStencilViewDesc.Texture2D.MipSlice = 0;
 
-	HRESULT errorCode = D3DDevice::Instance()->getDevice()->CreateDepthStencilView(texture.Get(), &depthStencilViewDesc, &DSV);
+	HRESULT errorCode = Device::Instance()->getDevice()->CreateDepthStencilView(texture.Get(), &depthStencilViewDesc, &DSV);
 
 	if (FAILED(errorCode))
 	{
@@ -60,7 +56,7 @@ void RenderTarget::addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, f
 
 void RenderTarget::clear()
 {
-	D3DDevice* device = D3DDevice::Instance();
+	Device* device = Device::Instance();
 	
 	for (int i = 0; i < RTVCount; ++i)
 	{
@@ -77,5 +73,5 @@ void RenderTarget::bind()
 	{
 		tempArr[i] = RTVs->Get();
 	}
-	D3DDevice::Instance()->getDeviceContext()->OMSetRenderTargets(RTVCount, tempArr, DSV.Get());
+	Device::Instance()->getDeviceContext()->OMSetRenderTargets(RTVCount, tempArr, DSV.Get());
 }

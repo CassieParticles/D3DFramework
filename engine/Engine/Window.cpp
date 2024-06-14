@@ -7,7 +7,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <glfw3native.h>
 
-#include <engine/D3DObjects/D3DDevice.h>
+#include <engine/D3DObjects/Device.h>
 
 Window* Window::instance = nullptr;
 
@@ -86,7 +86,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
-	device = D3DDevice::InitializeDevices();
+	device = Device::InitializeDevices();
 
 	//Create swapchain
 	//TODO: Allow user to change these

@@ -1,7 +1,7 @@
 ﻿list(APPEND Engine "engine/Engine/Window.cpp")
 
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
-list(APPEND Engine "engine/D3DObjects/D3DDevice.cpp")
+list(APPEND Engine "engine/D3DObjects/Device.cpp")
 
 add_library(D3D11Framework ${Engine})
 

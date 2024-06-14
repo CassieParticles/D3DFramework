@@ -1,20 +1,20 @@
-#include "D3DDevice.h"
+#include "Device.h"
 
 #include <iostream>
 
-D3DDevice* D3DDevice::instance = nullptr;
+Device* Device::instance = nullptr;
 
-D3DDevice* D3DDevice::InitializeDevices()
+Device* Device::InitializeDevices()
 {
 	if (!instance)
 	{
-		instance = new D3DDevice();
+		instance = new Device();
 	}
 
 	return instance;
 }
 
-D3DDevice::D3DDevice()
+Device::Device()
 {
 	//TODO: Add flags so this is not debug mode when compiled on release
 	constexpr D3D11_CREATE_DEVICE_FLAG debugFlag = D3D11_CREATE_DEVICE_DEBUG;
