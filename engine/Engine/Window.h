@@ -6,7 +6,10 @@
 #include <wrl.h>
 #include <DirectXMath.h>
 
+#include <engine/D3DObjects/RenderTarget.h>
+
 class GLFWwindow;
+class RenderTarget;
 
 class Window
 {
@@ -17,6 +20,13 @@ public:
 	static Window* Instance();
 
 	bool getWindowShouldClose();
+
+	const ComPtr<ID3D11Device>& getDevice() { return device; }
+	const ComPtr<ID3D11DeviceContext>& getDeviceContext() { return deviceContext; }
+	const ComPtr<IDXGIFactory2>& getFactory() { return factory; }
+	const ComPtr<IDXGISwapChain1>& getSwapChain() { return swapChain; }
+	const ComPtr<ID3D11Texture2D> getBackBuffer() { return backBuffer; }
+	const ComPtr<ID3D11Texture2D> getDepthBuffer() { return depthBuffer; }
 
 	void clearBackBuffer(DirectX::XMFLOAT4 colour);
 	void presentBackBuffer();
@@ -45,6 +55,8 @@ protected:
 	ComPtr<ID3D11Texture2D> depthBuffer;
 	ComPtr<ID3D11RenderTargetView> renderTargetView;
 	ComPtr<ID3D11DepthStencilView> depthStencilView;
+
+	RenderTarget defaultRenderTarget;
 
 	//Window size
 	int width{};

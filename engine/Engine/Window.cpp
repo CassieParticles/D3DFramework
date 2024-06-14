@@ -9,6 +9,8 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <glfw3native.h>
 
+#include <engine/D3DObjects/RenderTarget.h>
+
 Window* Window::instance = nullptr;
 
 Window* Window::initializeWindow(const std::string& windowTitle, int windowWidth, int windowHeight)
@@ -33,9 +35,11 @@ bool Window::getWindowShouldClose()
 void Window::clearBackBuffer(DirectX::XMFLOAT4 colour)
 {
 	glfwPollEvents();
-	float clearColour[4] = { colour.x,colour.y,colour.z,colour.w };
-	deviceContext->ClearRenderTargetView(renderTargetView.Get(), clearColour);
-	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.f, 0.f);
+	//float clearColour[4] = { colour.x,colour.y,colour.z,colour.w };
+	//deviceContext->ClearRenderTargetView(renderTargetView.Get(), clearColour);
+	//deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.f, 0.f);
+
+	defaultRenderTarget.clear();
 }
 
 void Window::presentBackBuffer()
@@ -153,29 +157,32 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
+	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0.02, 0.6, 0.8, 1.0));
+	defaultRenderTarget.addDSV(depthBuffer, 1.0, 0.0);
+
 	//Create render target view
-	errorCode = device->CreateRenderTargetView(backBuffer.Get(), 0, &renderTargetView);
-	if (FAILED(errorCode))
-	{
-		std::cerr << "Failed to create render target view\n";
-		return false;
-	}
+	//errorCode = device->CreateRenderTargetView(backBuffer.Get(), 0, &renderTargetView);
+	//if (FAILED(errorCode))
+	//{
+	//	std::cerr << "Failed to create render target view\n";
+	//	return false;
+	//}
 
 	//Create depth stencil view
 
-	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
-	depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	depthStencilViewDesc.Flags = 0;
-	depthStencilViewDesc.Texture2D.MipSlice = 0;
+	//D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
+	//depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	//depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	//depthStencilViewDesc.Flags = 0;
+	//depthStencilViewDesc.Texture2D.MipSlice = 0;
 
-	errorCode = device->CreateDepthStencilView(depthBuffer.Get(), &depthStencilViewDesc, &depthStencilView);
+	//errorCode = device->CreateDepthStencilView(depthBuffer.Get(), &depthStencilViewDesc, &depthStencilView);
 
-	if (FAILED(errorCode))
-	{
-		std::cerr << "Failed to create depth stencil view\n";
-		return false;
-	}
+	//if (FAILED(errorCode))
+	//{
+	//	std::cerr << "Failed to create depth stencil view\n";
+	//	return false;
+	//}
 
 	return true;
 }
@@ -193,8 +200,10 @@ void Window::handleResize(GLFWwindow* window, int width, int height)
 
 void Window::bindRTV()
 {
-	ID3D11RenderTargetView* renderTargetViews[1] = { renderTargetView.Get() };
-	deviceContext->OMSetRenderTargets(1, renderTargetViews, depthStencilView.Get());
+	//ID3D11RenderTargetView* renderTargetViews[1] = { renderTargetView.Get() };
+	//deviceContext->OMSetRenderTargets(1, renderTargetViews, depthStencilView.Get());
+
+	defaultRenderTarget.bind();
 
 	D3D11_VIEWPORT port = { 0,0,width,height ,0,1 };
 
