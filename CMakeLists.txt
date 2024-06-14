@@ -3,6 +3,9 @@
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 list(APPEND Engine "engine/D3DObjects/Device.cpp")
 
+list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
+
 add_library(D3D11Framework ${Engine})
 
 #Include all additional header files
