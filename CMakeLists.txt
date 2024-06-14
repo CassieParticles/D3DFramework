@@ -1,6 +1,8 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 
-list(APPEND Engine "engine/exampleFile.cpp")
+list(APPEND Engine "engine/Engine/Window.cpp")
+
+list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 
 add_library(D3D11Framework ${Engine})
 
