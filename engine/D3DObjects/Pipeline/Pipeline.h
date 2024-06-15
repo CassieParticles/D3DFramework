@@ -2,21 +2,44 @@
 #include <string>
 #include <wrl.h>
 
-#include <engine/D3DObjects/VertexLayout.h>
+#include <engine/D3DObjects/Pipeline/VertexLayout.h>
+#include <engine/D3DObjects/Pipeline/RasterizerState.h>
 
 class Pipeline
 {
 	template<typename T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
-	Pipeline();
-	~Pipeline();
+	Pipeline() = default;
+	~Pipeline() = default;
 
-	bool addVertexShader(const std::wstring& verexShaderPath);
-	bool addFragmentShader(const std::wstring& fragmentShaderPath);
+	//Adding shaders
+	bool addVertexShader(const std::wstring& verexShaderPath) { this->vertexShaderPath = vertexShaderPath; }
+	bool addPixelShader(const std::wstring& pixelShaderPath) { this->pixelShaderPath = pixelShaderPath; }
 
-	//TODO: add function once vertex layout works
-	//bool addLayoutDescription(Vertexlayout& layout);
+	void setPrimitiveType(D3D_PRIMITIVE_TOPOLOGY primitiveType) { this->primitiveType = primitiveType; }
+
+	void addVertexComponent(D3D11_INPUT_ELEMENT_DESC desc) { vertexLayout.addVertexComponent(desc); }
+	D3D11_RASTERIZER_DESC& getRastierizerDesc() { return rasterizerState.getDesc() };
+
+	bool compilePipeline();
+
+	void bind();
 protected:
+	bool compileShader(const std::wstring& filePath, ComPtr<ID3DBlob>& shaderByteCode, const std::string& profile, const std::string& entryFunction);
 
+	bool usable{};
+
+	//Shader paths, stored to be compiled
+	std::wstring vertexShaderPath{};
+	std::wstring pixelShaderPath{};
+
+	ComPtr<ID3D11VertexShader> vertexShader{};
+	ComPtr<ID3D11PixelShader> pixelShader{};
+	ComPtr<ID3DBlob> VSByteCode{};
+
+	D3D11_PRIMITIVE_TOPOLOGY primitiveType{};
+
+	VertexLayout vertexLayout{};
+	RasterizerState rasterizerState{};
 };

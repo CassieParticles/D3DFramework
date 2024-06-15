@@ -37,7 +37,7 @@ bool RasterizerState::createState()
 	return true;
 }
 
-void RasterizerState::use()
+void RasterizerState::bind()
 {
 	Device::Instance()->getDeviceContext()->RSSetState(rasterizerState.Get());
 }

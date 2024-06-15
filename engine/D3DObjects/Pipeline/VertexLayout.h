@@ -15,6 +15,8 @@ public:
 	void addVertexComponent(D3D11_INPUT_ELEMENT_DESC element);
 
 	bool createLayout(ComPtr<ID3DBlob> byteCode);
+
+	void bind();
 protected:
 	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
 

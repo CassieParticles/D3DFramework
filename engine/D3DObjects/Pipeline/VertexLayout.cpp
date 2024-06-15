@@ -18,3 +18,8 @@ bool VertexLayout::createLayout(ComPtr<ID3DBlob> byteCode)
 	}
 	return true;
 }
+
+void VertexLayout::bind()
+{
+	Device::Instance()->getDeviceContext()->IASetInputLayout(layout.Get());
+}
