@@ -4,7 +4,7 @@
 
 #include <engine/D3DObjects/Device.h>
 
-void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 clearColour)
+void RenderTarget::addRTV(const ComPtr<ID3D11Texture2D>& texture, DirectX::XMFLOAT4 clearColour)
 {
 	if (RTVCount >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
 	{
@@ -33,7 +33,7 @@ void RenderTarget::addRTV(ComPtr<ID3D11Texture2D> texture, DirectX::XMFLOAT4 cle
 	++RTVCount;
 }
 
-void RenderTarget::addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, float defaultStencil)
+void RenderTarget::addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultDepth, float defaultStencil)
 {
 	if (DSV != nullptr)
 	{
@@ -52,6 +52,9 @@ void RenderTarget::addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, f
 		std::cerr << "Failed to create depth stencil view\n";
 		return;
 	}
+
+	this->defaultDepth = defaultDepth;
+	this->defaultStencil = defaultStencil;
 }
 
 void RenderTarget::clear()

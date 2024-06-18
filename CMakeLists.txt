@@ -2,6 +2,7 @@
 
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 list(APPEND Engine "engine/D3DObjects/Device.cpp")
+list(APPEND Engine "engine/D3DObjects/Mesh.cpp")
 
 list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")

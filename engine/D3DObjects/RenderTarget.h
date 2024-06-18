@@ -14,9 +14,9 @@ public:
 	RenderTarget() = default;
 	~RenderTarget() = default;
 
-	void addRTV(ComPtr<ID3D11Texture2D> texture,DirectX::XMFLOAT4 clearColour);
+	void addRTV(const ComPtr<ID3D11Texture2D>& texture,DirectX::XMFLOAT4 clearColour);
 
-	void addDSV(ComPtr<ID3D11Texture2D> texture, float defaultDepth, float defaultStencil);
+	void addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultDepth, float defaultStencil);
 	//TODO: Add function to create texture as well
 
 	void clear();

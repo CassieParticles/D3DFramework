@@ -14,13 +14,13 @@ public:
 	~Pipeline() = default;
 
 	//Adding shaders
-	bool addVertexShader(const std::wstring& verexShaderPath) { this->vertexShaderPath = vertexShaderPath; }
-	bool addPixelShader(const std::wstring& pixelShaderPath) { this->pixelShaderPath = pixelShaderPath; }
+	void addVertexShader(const std::wstring& vertexShaderPath) { this->vertexShaderPath = vertexShaderPath; }
+	void addPixelShader(const std::wstring& pixelShaderPath) { this->pixelShaderPath = pixelShaderPath; }
 
 	void setPrimitiveType(D3D_PRIMITIVE_TOPOLOGY primitiveType) { this->primitiveType = primitiveType; }
 
 	void addVertexComponent(D3D11_INPUT_ELEMENT_DESC desc) { vertexLayout.addVertexComponent(desc); }
-	D3D11_RASTERIZER_DESC& getRastierizerDesc() { return rasterizerState.getDesc() };
+	D3D11_RASTERIZER_DESC& getRastierizerDesc() { return rasterizerState.getDesc(); }
 
 	bool compilePipeline();
 

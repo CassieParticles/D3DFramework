@@ -9,11 +9,8 @@ bool Pipeline::compilePipeline()
 {
 	Device* device = Device::Instance();
 
-	//Create input layout
-	vertexLayout.createLayout();
-
 	//Add vertex shader
-	if (!compileShader(vertexShaderPath, VSByteCode, "vs_5_0", "Main"))
+	if (compileShader(vertexShaderPath, VSByteCode, "vs_5_0", "Main"))
 	{
 		if (FAILED(device->getDevice()->CreateVertexShader(VSByteCode->GetBufferPointer(), VSByteCode->GetBufferSize(), nullptr, &vertexShader)))
 		{
@@ -22,9 +19,6 @@ bool Pipeline::compilePipeline()
 		}
 	}
 	//TODO: Add other shader stages
-
-	//Create rasterizer state
-	rasterizerState.createState();
 
 	//Add pixel shader
 	ComPtr<ID3DBlob> PSByteCode;
@@ -37,7 +31,12 @@ bool Pipeline::compilePipeline()
 		}
 	}
 
-	return true;
+	//Create input layout (must be done after vertex shader is compiled)
+	vertexLayout.createLayout(VSByteCode);
+	//Create rasterizer state
+	rasterizerState.createState();
+
+	return usable = true;
 }
 
 void Pipeline::bind()
@@ -52,6 +51,8 @@ void Pipeline::bind()
 	vertexLayout.bind();
 	rasterizerState.bind();
 
+	device->getDeviceContext()->IASetPrimitiveTopology(primitiveType);
+
 	device->getDeviceContext()->VSSetShader(vertexShader.Get(), nullptr, 0);
 	device->getDeviceContext()->PSSetShader(pixelShader.Get(), nullptr, 0);
 }
@@ -63,7 +64,9 @@ bool Pipeline::compileShader(const std::wstring& filePath, ComPtr<ID3DBlob>& sha
 	ComPtr<ID3DBlob> tempShaderBlob = nullptr;
 	ComPtr<ID3DBlob> errorBlob = nullptr;
 
-	if (FAILED(D3DCompileFromFile(filePath.data(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryFunction.data(), profile.data(), compileFlags, 0, &tempShaderBlob, &errorBlob)))
+	HRESULT errorCode = D3DCompileFromFile(filePath.data(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryFunction.data(), profile.data(), compileFlags, 0, &tempShaderBlob, &errorBlob);
+
+	if (FAILED(errorCode))
 	{
 		std::cerr << "Failed to compile shader\n";
 		if (errorBlob != nullptr)

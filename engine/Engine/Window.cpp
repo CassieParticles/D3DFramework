@@ -34,8 +34,8 @@ void Window::clearBackBuffer(DirectX::XMFLOAT4 colour)
 {
 	glfwPollEvents();
 	//float clearColour[4] = { colour.x,colour.y,colour.z,colour.w };
-	//deviceContext->ClearRenderTargetView(renderTargetView.Get(), clearColour);
-	//deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.f, 0.f);
+	//device->getDeviceContext()->ClearRenderTargetView(renderTargetView.Get(), clearColour);
+	//device->getDeviceContext()->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.f, 0.f);
 
 	defaultRenderTarget.clear();
 }
@@ -144,32 +144,32 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
-	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0.02, 0.6, 0.8, 1.0));
+	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0, 1, 0, 1.0));
 	defaultRenderTarget.addDSV(depthBuffer, 1.0, 0.0);
 
 	//Create render target view
-	//errorCode = device->CreateRenderTargetView(backBuffer.Get(), 0, &renderTargetView);
-	//if (FAILED(errorCode))
-	//{
-	//	std::cerr << "Failed to create render target view\n";
-	//	return false;
-	//}
+	errorCode = device->getDevice()->CreateRenderTargetView(backBuffer.Get(), 0, &renderTargetView);
+	if (FAILED(errorCode))
+	{
+		std::cerr << "Failed to create render target view\n";
+		return false;
+	}
 
 	//Create depth stencil view
 
-	//D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
-	//depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	//depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	//depthStencilViewDesc.Flags = 0;
-	//depthStencilViewDesc.Texture2D.MipSlice = 0;
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
+	depthStencilViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Flags = 0;
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
 
-	//errorCode = device->CreateDepthStencilView(depthBuffer.Get(), &depthStencilViewDesc, &depthStencilView);
+	errorCode = device->getDevice()->CreateDepthStencilView(depthBuffer.Get(), &depthStencilViewDesc, &depthStencilView);
 
-	//if (FAILED(errorCode))
-	//{
-	//	std::cerr << "Failed to create depth stencil view\n";
-	//	return false;
-	//}
+	if (FAILED(errorCode))
+	{
+		std::cerr << "Failed to create depth stencil view\n";
+		return false;
+	}
 
 	return true;
 }
@@ -188,7 +188,7 @@ void Window::handleResize(GLFWwindow* window, int width, int height)
 void Window::bindRTV()
 {
 	//ID3D11RenderTargetView* renderTargetViews[1] = { renderTargetView.Get() };
-	//deviceContext->OMSetRenderTargets(1, renderTargetViews, depthStencilView.Get());
+	//device->getDeviceContext()->OMSetRenderTargets(1, renderTargetViews, depthStencilView.Get());
 
 	defaultRenderTarget.bind();
 
