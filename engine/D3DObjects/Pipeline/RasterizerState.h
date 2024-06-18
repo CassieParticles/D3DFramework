@@ -17,7 +17,7 @@ public:
 
 	bool createState();
 
-	void use();
+	void bind();
 protected:
 	D3D11_RASTERIZER_DESC desc{};
 	ComPtr<ID3D11RasterizerState> rasterizerState;
