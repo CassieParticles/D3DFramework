@@ -1,4 +1,5 @@
 ﻿list(APPEND Engine "engine/Engine/Window.cpp")
+list(APPEND Engine "engine/Engine/TimeManager.cpp")
 
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 list(APPEND Engine "engine/D3DObjects/Device.cpp")
