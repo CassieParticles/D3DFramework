@@ -10,6 +10,8 @@ list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/VertexLayout.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/CBuffer.cpp")
 
+list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
+
 add_library(D3D11Framework ${Engine})
 
 #Include all additional header files

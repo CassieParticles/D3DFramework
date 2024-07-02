@@ -18,6 +18,7 @@ public:
 
 	//TODO: Add better way of writing to constant buffer
 	ComPtr<ID3D11Buffer>& getBuffer() { return buffer; }
+	const std::string& getName() { return name; }
 protected:
 	std::string name;
 	ComPtr<ID3D11Buffer> buffer;
