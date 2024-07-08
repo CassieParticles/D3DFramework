@@ -1,5 +1,6 @@
 ﻿list(APPEND Engine "engine/Engine/Window.cpp")
 list(APPEND Engine "engine/Engine/TimeManager.cpp")
+list(APPEND Engine "engine/Engine/Input.cpp")
 
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 list(APPEND Engine "engine/D3DObjects/Device.cpp")
@@ -12,7 +13,7 @@ list(APPEND Engine "engine/D3DObjects/Pipeline/CBuffer.cpp")
 
 list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
 
-add_library(D3D11Framework ${Engine})
+add_library(D3D11Framework ${Engine} "engine/Engine/Input.h")
 
 #Include all additional header files
 target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}")

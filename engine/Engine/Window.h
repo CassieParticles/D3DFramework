@@ -26,6 +26,8 @@ public:
 	const ComPtr<ID3D11Texture2D> getBackBuffer() { return backBuffer; }
 	const ComPtr<ID3D11Texture2D> getDepthBuffer() { return depthBuffer; }
 
+	GLFWwindow* getWindow() { return window; }
+
 	void clearBackBuffer(DirectX::XMFLOAT4 colour);
 	void presentBackBuffer();
 
@@ -37,8 +39,6 @@ protected:
 	Window(const std::string& windowTitle, int windowWidth, int windowHeight);
 	~Window() = default;
 	bool createWindow(const std::string& windowTitle, int windowWidth, int windowHeight);
-
-	GLFWwindow* windowHandle;
 	
 	GLFWwindow* window;
 
