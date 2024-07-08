@@ -25,6 +25,10 @@ void InputActionManager::addInputAction(const std::string& name, int* inputs, in
 
 void InputActionManager::update()
 {
+	if (updateInput)
+	{
+		Input::Instance()->update();
+	}
 	for (int i = 0; i < inputActions.size(); ++i)
 	{
 		inputActions.at(i).Update();

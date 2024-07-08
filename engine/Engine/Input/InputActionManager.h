@@ -8,6 +8,8 @@ class InputActionManager
 {
 public:
 	static InputActionManager* Instance();
+	
+	void setUpdateInput() { updateInput = true; }
 
 	void addInputAction(const std::string& name,int* inputs, int inputCount, InputAction::ActionType actionType);
 
@@ -15,6 +17,8 @@ public:
 
 	bool getActionTriggered(const std::string& name);
 protected:
+	bool updateInput{};
+
 	static InputActionManager* instance;
 
 	std::vector<InputAction> inputActions;
