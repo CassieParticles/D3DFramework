@@ -44,7 +44,7 @@ bool CBufferManager::addBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, b
 	}
 
 	//Add constant buffer to vector
-	cBuffers.emplace_back(name, constantBuffer);
+	cBuffers.emplace_back(name, constantBuffer,dynamic);
 	return true;
 }
 
