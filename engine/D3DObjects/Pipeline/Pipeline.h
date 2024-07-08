@@ -1,9 +1,11 @@
 #include <d3d11.h>
 #include <string>
 #include <wrl.h>
+#include <vector>
 
 #include <engine/D3DObjects/Pipeline/VertexLayout.h>
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
+#include <engine/D3DObjects/Pipeline/CBuffer.h>
 
 class Pipeline
 {
@@ -21,6 +23,9 @@ public:
 
 	void addVertexComponent(D3D11_INPUT_ELEMENT_DESC desc) { vertexLayout.addVertexComponent(desc); }
 	D3D11_RASTERIZER_DESC& getRastierizerDesc() { return rasterizerState.getDesc(); }
+
+	void bindConstantBuffer(const std::string& name, int stagesBound, int cRegister);
+	void bindConstantBuffer(int ID, int stagesBound, int cRegister) { CBuffers.push_back({ ID,stagesBound,cRegister }); }
 
 	bool compilePipeline();
 
@@ -42,4 +47,6 @@ protected:
 
 	VertexLayout vertexLayout{};
 	RasterizerState rasterizerState{};
+
+	std::vector<CBufferBinding> CBuffers;
 };

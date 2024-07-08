@@ -4,6 +4,15 @@
 #include <d3dcompiler.h>
 
 #include <engine/D3DObjects/Device.h>
+#include <engine/DataManagers/CBufferManager.h>
+
+void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
+{
+	int ID = CBufferManager::Instance()->getCBufferID(name);
+	if (ID == -1) { return; }
+
+	bindConstantBuffer(ID, stagesBound, cRegister);
+}
 
 bool Pipeline::compilePipeline()
 {
@@ -47,14 +56,25 @@ void Pipeline::bind()
 		return;
 	}
 	Device* device = Device::Instance();
+	CBufferManager* cBufferManager = CBufferManager::Instance();
 	
+	//Bind fixed function stages
 	vertexLayout.bind();
 	rasterizerState.bind();
 
+	//Set primitive topology
 	device->getDeviceContext()->IASetPrimitiveTopology(primitiveType);
 
+	//Bind shader stages
 	device->getDeviceContext()->VSSetShader(vertexShader.Get(), nullptr, 0);
 	device->getDeviceContext()->PSSetShader(pixelShader.Get(), nullptr, 0);
+
+	//Bind the constant buffers
+	for(int i=0;i<CBuffers.size();++i)
+	{
+		CBufferBinding binding = CBuffers.at(i);
+		cBufferManager->getCBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
+	}
 }
 
 bool Pipeline::compileShader(const std::wstring& filePath, ComPtr<ID3DBlob>& shaderByteCode, const std::string& profile, const std::string& entryFunction)

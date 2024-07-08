@@ -4,6 +4,18 @@
 
 #include <engine/D3DObjects/Device.h>
 
+CBufferManager* CBufferManager::instance = nullptr;
+
+CBufferManager* CBufferManager::Instance()
+{
+	if (instance == nullptr)
+	{
+		instance = new CBufferManager();
+	}
+
+	return instance;
+}
+
 bool CBufferManager::addBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size)
 {
 	if (size % 16 != 0)
@@ -44,7 +56,7 @@ bool CBufferManager::addBuffer(std::string name, void* data, bool dynamic, int s
 	return addBuffer(name, &dat, dynamic, size);
 }
 
-const CBuffer* CBufferManager::getCBuffer(std::string name)
+CBuffer* CBufferManager::getCBuffer(std::string name)
 {
 	//Locate constant buffer with name "name"
 	for (int i = 0; i < cBuffers.size(); ++i)
@@ -59,9 +71,24 @@ const CBuffer* CBufferManager::getCBuffer(std::string name)
 	return nullptr;
 }
 
-const CBuffer* CBufferManager::getCBuffer(int index)
+CBuffer* CBufferManager::getCBuffer(int index)
 {
 	//If index is out of bounds, return null
 	if (index < 0 || index >= cBuffers.size()) { std::cerr << "Error, index out of range\n"; return nullptr; }
 	return &cBuffers.at(index);
+}
+
+int CBufferManager::getCBufferID(std::string name)
+{
+	//Locate constant buffer with name "name"
+	for (int i = 0; i < cBuffers.size(); ++i)
+	{
+		if (cBuffers.at(i).getName() == name)
+		{
+			return i;
+		}
+	}
+	//CBuffer not found
+	std::cerr << "Error: CBuffer " << name << " not found\n";
+	return -1;
 }

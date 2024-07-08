@@ -4,6 +4,13 @@
 #include <string>
 #include <d3d11.h>
 
+struct CBufferBinding
+{
+	int BufferID;
+	int StagesBound;
+	int cRegister;
+};
+
 class CBuffer
 {
 	template<typename T>
