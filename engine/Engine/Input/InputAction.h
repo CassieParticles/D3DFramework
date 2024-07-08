@@ -9,13 +9,17 @@ class InputAction
 public:
 	enum ActionType
 	{
-		DOWN,
-		PRESS,
-		RELEASE
+		DOWN_OR,
+		PRESS_OR,
+		RELEASE_OR,
+		DOWN_AND,
+		PRESS_AND,
+		RELEASE_AND
 	};
 
 	InputAction(const std::string& name,int* inputs, int inputCount, ActionType type);
-	~InputAction() { delete[] inputs; }
+	InputAction(const std::string& name, int* inputs, int inputCount, std::function<bool(bool* current, bool* last, int count)> actionFunction);
+	~InputAction();
 
 	void Update();
 
@@ -32,10 +36,10 @@ protected:
 	int* inputs;
 	int inputCount;
 
-	//Since variable number of input actions, it's easier to have this here
-	bool pressedThisFrame{};
-	bool pressedLastFrame{};
+	//One boolean for each input action, allows more complex methods
+	bool* pressedThisFrame;
+	bool* pressedLastFrame;
 	
 	//Type of action
-	std::function<bool(bool curr, bool last)> actionFunction;
+	std::function<bool(bool* curr, bool* last, int count)> actionFunction;
 };
