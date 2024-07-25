@@ -25,7 +25,7 @@ public:
 	};
 	Buffer(const std::string& name, ComPtr<ID3D11Buffer> buffer, D3D11_USAGE usage) { addBuffer(name, buffer, usage); }
 
-	void bindBuffer(int stagesBoundTo, unsigned int bRegister) { std::cerr << "Error: Unknown buffer type\n"; }
+	void bindBuffer(int stagesBoundTo, unsigned int bRegister) { std::cerr << "Error: Direct binding not supported\n"; }
 
 	void updateBuffer(void* data, int size) { std::cout << "Error: Unknown buffer type\n"; }
 

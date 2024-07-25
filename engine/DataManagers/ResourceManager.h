@@ -17,18 +17,30 @@ public:
 
 	~ResourceManager() = default;
 
+	//Create vertex buffers
+	bool addVertexBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, D3D11_USAGE usage, int size);
+	bool addVertexBuffer(std::string name, void* data, D3D11_USAGE usage, int size);
+
 	// Create constant buffers
-	bool addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size);
-	bool addCBuffer(std::string name, void* data, bool dynamic, int size);
+	bool addConstantBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size);
+	bool addConstantBuffer(std::string name, void* data, bool dynamic, int size);
 
-	Buffer<ConstantBuffer>* getCBuffer(std::string name);
-	Buffer<ConstantBuffer>* getCBuffer(int index);
+	//Get vertex buffers
+	Buffer<VertexBuffer>* getVertexBuffer(std::string name);
+	Buffer<VertexBuffer>* getVertexBuffer(int index);
 
-	int getCBufferID(std::string name);
+	//Get Constant buffers
+	Buffer<ConstantBuffer>* getConstantBuffer(std::string name);
+	Buffer<ConstantBuffer>* getConstantBuffer(int index);
+
+	//Get buffer IDs
+	int getVertexBufferID(const std::string& name);
+	int getConstantBufferID(const std::string& name);
 protected:
 	ResourceManager() = default;
 
 	static ResourceManager* instance;
 
+	std::vector<Buffer<VertexBuffer>> VertexBuffers;
 	std::vector<Buffer<ConstantBuffer>> ConstantBuffers;
 };
