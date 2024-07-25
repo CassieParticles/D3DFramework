@@ -8,7 +8,7 @@
 
 void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
 {
-	int ID = ResourceManager::Instance()->getCBufferID(name);
+	int ID = ResourceManager::Instance()->getConstantBufferID(name);
 	if (ID == -1) { return; }
 
 	bindConstantBuffer(ID, stagesBound, cRegister);
@@ -73,7 +73,7 @@ void Pipeline::bind()
 	for(int i=0;i<CBuffers.size();++i)
 	{
 		CBufferBinding binding = CBuffers.at(i);
-		cBufferManager->getCBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
+		cBufferManager->getConstantBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
 	}
 }
 

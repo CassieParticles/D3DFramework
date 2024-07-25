@@ -27,7 +27,7 @@ bool ResourceManager::addVertexBuffer(std::string name, D3D11_SUBRESOURCE_DATA* 
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	desc.Usage = usage;
 
-	if (usage == D3D11_USAGE_DEFAULT || D3D11_USAGE_STAGING)
+	if (usage == D3D11_USAGE_DEFAULT || usage == D3D11_USAGE_STAGING)
 	{
 		desc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
 	}
