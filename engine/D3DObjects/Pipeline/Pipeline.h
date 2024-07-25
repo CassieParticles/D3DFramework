@@ -5,7 +5,7 @@
 
 #include <engine/D3DObjects/Pipeline/VertexLayout.h>
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
-#include <engine/D3DObjects/Pipeline/CBuffer.h>
+#include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
 
 class Pipeline
 {

@@ -16,7 +16,7 @@ CBufferManager* CBufferManager::Instance()
 	return instance;
 }
 
-bool CBufferManager::addBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size)
+bool CBufferManager::addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size)
 {
 	if (size % 16 != 0)
 	{
@@ -48,7 +48,7 @@ bool CBufferManager::addBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, b
 	return true;
 }
 
-bool CBufferManager::addBuffer(std::string name, void* data, bool dynamic, int size)
+bool CBufferManager::addCBuffer(std::string name, void* data, bool dynamic, int size)
 {
 	D3D11_SUBRESOURCE_DATA dat{};
 	dat.pSysMem = data;
