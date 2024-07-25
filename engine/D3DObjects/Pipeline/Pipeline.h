@@ -51,4 +51,6 @@ protected:
 	RasterizerState rasterizerState{};
 
 	std::vector<CBufferBinding> CBuffers;
+
+	std::vector<Buffer<ConstantBuffer>> ConstantBuffers;
 };

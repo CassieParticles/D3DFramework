@@ -44,8 +44,10 @@ bool CBufferManager::addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, 
 		return false;
 	}
 
-	//Add constant buffer to vector
-	cBuffers.emplace_back(name, constantBuffer,dynamic);
+
+		//Add constant buffer to vector
+		//cBuffers.emplace_back(name, constantBuffer,dynamic);
+		ConstantBuffers.emplace_back(name, constantBuffer, dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE);
 	return true;
 }
 
@@ -57,14 +59,14 @@ bool CBufferManager::addCBuffer(std::string name, void* data, bool dynamic, int 
 	return addCBuffer(name, &dat, dynamic, size);
 }
 
-CBuffer* CBufferManager::getCBuffer(std::string name)
+Buffer<ConstantBuffer>* CBufferManager::getCBuffer(std::string name)
 {
 	//Locate constant buffer with name "name"
-	for (int i = 0; i < cBuffers.size(); ++i)
+	for (int i = 0; i < ConstantBuffers.size(); ++i)
 	{
-		if (cBuffers.at(i).getName() == name)
+		if (ConstantBuffers.at(i).getName() == name)
 		{
-			return &cBuffers.at(i);
+			return &ConstantBuffers.at(i);
 		}
 	}
 	//CBuffer not found
@@ -72,19 +74,19 @@ CBuffer* CBufferManager::getCBuffer(std::string name)
 	return nullptr;
 }
 
-CBuffer* CBufferManager::getCBuffer(int index)
+Buffer<ConstantBuffer>* CBufferManager::getCBuffer(int index)
 {
 	//If index is out of bounds, return null
-	if (index < 0 || index >= cBuffers.size()) { std::cerr << "Error, index out of range\n"; return nullptr; }
-	return &cBuffers.at(index);
+	if (index < 0 || index >= ConstantBuffers.size()) { std::cerr << "Error, index out of range\n"; return nullptr; }
+	return &ConstantBuffers.at(index);
 }
 
 int CBufferManager::getCBufferID(std::string name)
 {
 	//Locate constant buffer with name "name"
-	for (int i = 0; i < cBuffers.size(); ++i)
+	for (int i = 0; i < ConstantBuffers.size(); ++i)
 	{
-		if (cBuffers.at(i).getName() == name)
+		if (ConstantBuffers.at(i).getName() == name)
 		{
 			return i;
 		}

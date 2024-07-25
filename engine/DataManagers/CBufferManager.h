@@ -6,6 +6,7 @@
 #include <wrl.h>
 
 #include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
+#include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
 
 class CBufferManager
 {
@@ -21,8 +22,8 @@ public:
 	bool addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size);
 	bool addCBuffer(std::string name, void* data, bool dynamic, int size);
 
-	CBuffer* getCBuffer(std::string name);
-	CBuffer* getCBuffer(int index);
+	Buffer<ConstantBuffer>* getCBuffer(std::string name);
+	Buffer<ConstantBuffer>* getCBuffer(int index);
 
 	int getCBufferID(std::string name);
 protected:
@@ -30,5 +31,5 @@ protected:
 
 	static CBufferManager* instance;
 
-	std::vector<CBuffer> cBuffers;
+	std::vector<Buffer<ConstantBuffer>> ConstantBuffers;
 };
