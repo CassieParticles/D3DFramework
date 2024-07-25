@@ -10,6 +10,13 @@
 
 #include "BufferTypes.h"
 
+struct CBufferBinding
+{
+	int BufferID;
+	int StagesBound;
+	int cRegister;
+};
+
 template <typename T>
 class Buffer
 {

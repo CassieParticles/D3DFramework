@@ -12,7 +12,6 @@ list(APPEND Engine "engine/D3DObjects/Mesh.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/VertexLayout.cpp")
-list(APPEND Engine "engine/D3DObjects/Pipeline/Buffers/CBuffer.cpp")
 
 list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
 

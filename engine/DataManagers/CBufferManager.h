@@ -5,7 +5,6 @@
 #include <d3d11.h>
 #include <wrl.h>
 
-#include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
 #include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
 
 class CBufferManager

@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include <engine/D3DObjects/Device.h>
-//#include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
 
 CBufferManager* CBufferManager::instance = nullptr;
 
