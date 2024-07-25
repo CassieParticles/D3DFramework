@@ -1,22 +1,22 @@
-#include "CBufferManager.h"
+#include "ResourceManager.h"
 
 #include <iostream>
 
 #include <engine/D3DObjects/Device.h>
 
-CBufferManager* CBufferManager::instance = nullptr;
+ResourceManager* ResourceManager::instance = nullptr;
 
-CBufferManager* CBufferManager::Instance()
+ResourceManager* ResourceManager::Instance()
 {
 	if (instance == nullptr)
 	{
-		instance = new CBufferManager();
+		instance = new ResourceManager();
 	}
 
 	return instance;
 }
 
-bool CBufferManager::addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size)
+bool ResourceManager::addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size)
 {
 	if (size % 16 != 0)
 	{
@@ -50,7 +50,7 @@ bool CBufferManager::addCBuffer(std::string name, D3D11_SUBRESOURCE_DATA* data, 
 	return true;
 }
 
-bool CBufferManager::addCBuffer(std::string name, void* data, bool dynamic, int size)
+bool ResourceManager::addCBuffer(std::string name, void* data, bool dynamic, int size)
 {
 	D3D11_SUBRESOURCE_DATA dat{};
 	dat.pSysMem = data;
@@ -58,7 +58,7 @@ bool CBufferManager::addCBuffer(std::string name, void* data, bool dynamic, int 
 	return addCBuffer(name, &dat, dynamic, size);
 }
 
-Buffer<ConstantBuffer>* CBufferManager::getCBuffer(std::string name)
+Buffer<ConstantBuffer>* ResourceManager::getCBuffer(std::string name)
 {
 	//Locate constant buffer with name "name"
 	for (int i = 0; i < ConstantBuffers.size(); ++i)
@@ -73,14 +73,14 @@ Buffer<ConstantBuffer>* CBufferManager::getCBuffer(std::string name)
 	return nullptr;
 }
 
-Buffer<ConstantBuffer>* CBufferManager::getCBuffer(int index)
+Buffer<ConstantBuffer>* ResourceManager::getCBuffer(int index)
 {
 	//If index is out of bounds, return null
 	if (index < 0 || index >= ConstantBuffers.size()) { std::cerr << "Error, index out of range\n"; return nullptr; }
 	return &ConstantBuffers.at(index);
 }
 
-int CBufferManager::getCBufferID(std::string name)
+int ResourceManager::getCBufferID(std::string name)
 {
 	//Locate constant buffer with name "name"
 	for (int i = 0; i < ConstantBuffers.size(); ++i)

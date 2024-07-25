@@ -4,11 +4,11 @@
 #include <d3dcompiler.h>
 
 #include <engine/D3DObjects/Device.h>
-#include <engine/DataManagers/CBufferManager.h>
+#include <engine/DataManagers/ResourceManager.h>
 
 void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
 {
-	int ID = CBufferManager::Instance()->getCBufferID(name);
+	int ID = ResourceManager::Instance()->getCBufferID(name);
 	if (ID == -1) { return; }
 
 	bindConstantBuffer(ID, stagesBound, cRegister);
@@ -56,7 +56,7 @@ void Pipeline::bind()
 		return;
 	}
 	Device* device = Device::Instance();
-	CBufferManager* cBufferManager = CBufferManager::Instance();
+	ResourceManager* cBufferManager = ResourceManager::Instance();
 	
 	//Bind fixed function stages
 	vertexLayout.bind();
