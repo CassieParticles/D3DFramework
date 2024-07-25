@@ -7,6 +7,8 @@
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
 #include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
 
+#include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
+
 class Pipeline
 {
 	template<typename T>

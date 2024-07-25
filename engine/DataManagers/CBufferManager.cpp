@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <engine/D3DObjects/Device.h>
+//#include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
 
 CBufferManager* CBufferManager::instance = nullptr;
 
@@ -53,7 +54,7 @@ bool CBufferManager::addCBuffer(std::string name, void* data, bool dynamic, int 
 	D3D11_SUBRESOURCE_DATA dat{};
 	dat.pSysMem = data;
 
-	return addBuffer(name, &dat, dynamic, size);
+	return addCBuffer(name, &dat, dynamic, size);
 }
 
 CBuffer* CBufferManager::getCBuffer(std::string name)
