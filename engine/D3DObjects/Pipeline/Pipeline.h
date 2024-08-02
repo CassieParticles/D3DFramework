@@ -5,7 +5,8 @@
 
 #include <engine/D3DObjects/Pipeline/VertexLayout.h>
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
-#include <engine/D3DObjects/Pipeline/Buffers/CBuffer.h>
+
+#include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
 
 class Pipeline
 {
@@ -49,4 +50,6 @@ protected:
 	RasterizerState rasterizerState{};
 
 	std::vector<CBufferBinding> CBuffers;
+
+	std::vector<Buffer<ConstantBuffer>> ConstantBuffers;
 };
