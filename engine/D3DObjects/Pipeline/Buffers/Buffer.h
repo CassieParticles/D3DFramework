@@ -48,3 +48,4 @@ protected:
 
 //Separate parts of the template to make code more readable
 #include "ConstantBuffer.h"
+

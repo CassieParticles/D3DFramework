@@ -8,7 +8,7 @@
 
 void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
 {
-	int ID = ResourceManager::Instance()->getConstantBufferID(name);
+	int ID = ResourceManager::Instance()->getConstantBufferIndex(name);
 	if (ID == -1) { return; }
 
 	bindConstantBuffer(ID, stagesBound, cRegister);

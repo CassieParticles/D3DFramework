@@ -51,7 +51,7 @@ void Mesh::addVertexBuffer(const std::string& name, int vertexStride, int vertex
 {
 	if (bufferCount < D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT)
 	{
-		vertexBuffers[bufferCount] = ResourceManager::Instance()->getVertexBufferID(name);
+		vertexBuffers[bufferCount] = ResourceManager::Instance()->getVertexBufferIndex(name);
 		vertexStrides[bufferCount] = vertexStride;
 		vertexOffsets[bufferCount] = vertexOffset;
 		bufferCount++;

@@ -4,3 +4,4 @@
 struct VertexBuffer {};
 struct IndexBuffer {};
 struct ConstantBuffer {};
+struct StructuredBuffer {};
