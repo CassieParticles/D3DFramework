@@ -14,6 +14,14 @@ void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int 
 	bindConstantBuffer(ID, stagesBound, cRegister);
 }
 
+void Pipeline::bindSRV(const std::string& name, int stagesBound, unsigned int bindRegister)
+{
+	int ID = ResourceManager::Instance()->getShaderResourceViewIndex(name);
+	if (ID == -1) { return; }
+
+	bindSRV(ID, stagesBound, bindRegister);
+}
+
 bool Pipeline::compilePipeline()
 {
 	Device* device = Device::Instance();
@@ -56,7 +64,7 @@ void Pipeline::bind()
 		return;
 	}
 	Device* device = Device::Instance();
-	ResourceManager* cBufferManager = ResourceManager::Instance();
+	ResourceManager* resourceManager = ResourceManager::Instance();
 	
 	//Bind fixed function stages
 	vertexLayout.bind();
@@ -73,7 +81,14 @@ void Pipeline::bind()
 	for(int i=0;i<CBuffers.size();++i)
 	{
 		CBufferBinding binding = CBuffers.at(i);
-		cBufferManager->getConstantBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
+		resourceManager->getConstantBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
+	}
+
+	//Bind the SRVs
+	for (int i = 0; i < SRVs.size(); ++i)
+	{
+		SRVBinding binding = SRVs.at(i);
+		resourceManager->getShaderResourceView(binding.SRVID)->bindView(binding.stagesBound, binding.bindRegister);
 	}
 }
 

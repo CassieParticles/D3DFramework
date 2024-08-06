@@ -1,3 +1,5 @@
+#pragma once
+
 #include <d3d11.h>
 #include <string>
 #include <wrl.h>
@@ -7,6 +9,7 @@
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
 
 #include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
+#include <engine/D3DObjects/Pipeline/Views/SRV.h>
 
 class Pipeline
 {
@@ -27,6 +30,9 @@ public:
 
 	void bindConstantBuffer(const std::string& name, int stagesBound, int cRegister);
 	void bindConstantBuffer(int ID, int stagesBound, int cRegister) { CBuffers.push_back({ ID,stagesBound,cRegister }); }
+
+	void bindSRV(const std::string& name, int stagesBound, unsigned int bindRegister);
+	void bindSRV(int ID, int stagesBound, unsigned int bindRegister) { SRVs.push_back(SRVBinding{ ID,stagesBound,bindRegister }); }
 
 	bool compilePipeline();
 
@@ -51,5 +57,5 @@ protected:
 
 	std::vector<CBufferBinding> CBuffers;
 
-	std::vector<Buffer<ConstantBuffer>> ConstantBuffers;
+	std::vector<SRVBinding> SRVs;
 };
