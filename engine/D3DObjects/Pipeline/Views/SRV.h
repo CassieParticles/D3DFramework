@@ -4,13 +4,6 @@
 #include <string>
 #include <d3d11.h>
 
-struct SRVBinding
-{
-	int SRVID;
-	int stagesBound;
-	unsigned int bindRegister;
-};
-
 class SRV
 {
 	template <typename T>

@@ -6,7 +6,7 @@
 #include <engine/D3DObjects/Device.h>
 #include <engine/DataManagers/ResourceManager.h>
 
-void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
+void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, unsigned int cRegister)
 {
 	int ID = ResourceManager::Instance()->getConstantBufferIndex(name);
 	if (ID == -1) { return; }
@@ -80,15 +80,15 @@ void Pipeline::bind()
 	//Bind the constant buffers
 	for(int i=0;i<CBuffers.size();++i)
 	{
-		CBufferBinding binding = CBuffers.at(i);
-		resourceManager->getConstantBuffer(binding.BufferID)->bindBuffer(binding.StagesBound, binding.cRegister);
+		PipelineBinding binding = CBuffers.at(i);
+		resourceManager->getConstantBuffer(binding.resourceIndex)->bindBuffer(binding.shaadersBound, binding.shaderRegister);
 	}
 
 	//Bind the SRVs
 	for (int i = 0; i < SRVs.size(); ++i)
 	{
-		SRVBinding binding = SRVs.at(i);
-		resourceManager->getShaderResourceView(binding.SRVID)->bindView(binding.stagesBound, binding.bindRegister);
+		PipelineBinding binding = SRVs.at(i);
+		resourceManager->getShaderResourceView(binding.resourceIndex)->bindView(binding.shaadersBound, binding.shaderRegister);
 	}
 }
 

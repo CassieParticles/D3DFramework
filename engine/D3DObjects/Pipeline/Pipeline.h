@@ -11,6 +11,13 @@
 #include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
 #include <engine/D3DObjects/Pipeline/Views/SRV.h>
 
+struct PipelineBinding
+{
+	int resourceIndex;
+	int shaadersBound;
+	unsigned int shaderRegister;
+};
+
 class Pipeline
 {
 	template<typename T>
@@ -28,11 +35,11 @@ public:
 	void addVertexComponent(D3D11_INPUT_ELEMENT_DESC desc) { vertexLayout.addVertexComponent(desc); }
 	D3D11_RASTERIZER_DESC& getRastierizerDesc() { return rasterizerState.getDesc(); }
 
-	void bindConstantBuffer(const std::string& name, int stagesBound, int cRegister);
-	void bindConstantBuffer(int ID, int stagesBound, int cRegister) { CBuffers.push_back({ ID,stagesBound,cRegister }); }
+	void bindConstantBuffer(const std::string& name, int stagesBound, unsigned int cRegister);
+	void bindConstantBuffer(int ID, int stagesBound, unsigned int cRegister) { CBuffers.push_back(PipelineBinding{ ID,stagesBound,cRegister }); }
 
 	void bindSRV(const std::string& name, int stagesBound, unsigned int bindRegister);
-	void bindSRV(int ID, int stagesBound, unsigned int bindRegister) { SRVs.push_back(SRVBinding{ ID,stagesBound,bindRegister }); }
+	void bindSRV(int ID, int stagesBound, unsigned int bindRegister) { SRVs.push_back(PipelineBinding{ ID,stagesBound,bindRegister }); }
 
 	bool compilePipeline();
 
@@ -55,7 +62,7 @@ protected:
 	VertexLayout vertexLayout{};
 	RasterizerState rasterizerState{};
 
-	std::vector<CBufferBinding> CBuffers;
+	std::vector<PipelineBinding> CBuffers;
 
-	std::vector<SRVBinding> SRVs;
+	std::vector<PipelineBinding> SRVs;
 };

@@ -1,12 +1,5 @@
 #pragma once
 
-struct CBufferBinding
-{
-	int BufferID;
-	int StagesBound;
-	int cRegister;
-};
-
 template<>
 void Buffer<ConstantBuffer>::bindBuffer(int stagesBoundTo, unsigned int bRegister)
 {
