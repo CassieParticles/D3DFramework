@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "3266c413e6161bd6",
+            "id": "6267fb5b832bda8f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "D3DFramework plans.md",
+                "file": "D3DObjects/Pipeline/Textures/Texture2D.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "D3DFramework plans.md",
+                "file": "D3DObjects/Pipeline/Textures/Texture2D.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "D3DFramework plans.md",
+                "file": "D3DObjects/Pipeline/Textures/Texture2D.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "D3DFramework plans.md"
+                "file": "D3DObjects/Pipeline/Textures/Texture2D.md"
               }
             }
           }
@@ -146,10 +146,44 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "11f76183a8374549",
+  "active": "6267fb5b832bda8f",
   "lastOpenFiles": [
-    "2024-06-14.md",
+    "D3DObjects/Pipeline/Pipeline.md",
+    "D3DObjects/Pipeline/Textures/Texture2D.md",
+    "D3DObjects/Pipeline/Textures",
+    "D3DObjects/Managers/ResourceManager.md",
+    "D3DObjects/Pipeline/Buffers/Constant buffer.md",
+    "D3DObjects/Pipeline/Buffers/CBufferBinding.md",
+    "D3DObjects/Pipeline/Views/ShaderResourceView.md",
+    "D3DObjects/Pipeline/Views/View.md",
+    "D3DObjects/Pipeline/Buffers/Standard buffer.md",
+    "D3DObjects/Pipeline/Buffers/BufferTypes.md",
+    "D3DObjects/Pipeline/Views/Untitled",
+    "D3DObjects/Pipeline/Buffers/VertexBuffer.md",
+    "D3DObjects/Pipeline/Views",
+    "D3DObjects/Pipeline/Buffers/Buffer.md",
+    "D3DObjects/Mesh.md",
+    "Engine/Input/InputAction.md",
+    "D3DObjects/Pipeline/Buffers",
+    "Engine/Input/InputActionManager.md",
+    "Engine/Input",
+    "Engine/Input/Input.md",
+    "Engine/Window.md",
+    "D3DObjects/Pipeline/RasterizerState.md",
+    "Untitled.canvas",
     "D3DFramework plans.md",
-    "Welcome.md"
+    "D3DObjects/Pipeline/Vertex layout.md",
+    "D3DObjects/Managers",
+    "Engine/TimeManager.md",
+    "Untitled 1.md",
+    "Untitled",
+    "D3DObjects/Pipeline",
+    "D3DObjects/Device.md",
+    "D3DObjects/Render target.md",
+    "D3DObjects",
+    "Engine",
+    "Included libraries.md",
+    "D3DDevices.md",
+    "D3DObjects/Constant buffer.md"
   ]
 }
