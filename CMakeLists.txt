@@ -1,8 +1,29 @@
-﻿cmake_minimum_required (VERSION 3.8)
+﻿list(APPEND Engine "engine/Engine/Window.cpp")
+list(APPEND Engine "engine/Engine/TimeManager.cpp")
 
-list(APPEND Engine "engine/exampleFile.cpp")
+list(APPEND Engine "engine/Engine/Input/Input.cpp")
+list(APPEND Engine "engine/Engine/Input/InputAction.cpp")
+list(APPEND Engine "engine/Engine/Input/InputActionManager.cpp")
+
+list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
+list(APPEND Engine "engine/D3DObjects/Device.cpp")
+list(APPEND Engine "engine/D3DObjects/Mesh.cpp")
+
+list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/VertexLayout.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/CBuffer.cpp")
+
+list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
 
 add_library(D3D11Framework ${Engine})
+
+
+#Include all additional header files
+target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
+
+target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}/libraries/includes")
+
 
 #Add GLFW for windows
 add_library(GLFW STATIC IMPORTED GLOBAL)
@@ -22,11 +43,3 @@ target_link_libraries(D3D11Framework d3dcompiler)
 target_link_libraries(D3D11Framework winmm)
 target_link_libraries(D3D11Framework dxguid)
 
-#Include all additional header files
-target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}/libraries/includes")
-
-target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET D3D11Framework PROPERTY CXX_STANDARD 20)
-endif()
