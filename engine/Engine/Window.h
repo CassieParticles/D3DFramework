@@ -28,7 +28,8 @@ public:
 
 	GLFWwindow* getWindow() { return window; }
 
-	void clearBackBuffer(DirectX::XMFLOAT4 colour);
+	void changeBackBufferClearColour(DirectX::XMFLOAT4 newColour);
+	void clearBackBuffer();
 	void presentBackBuffer();
 
 	void bindRTV();

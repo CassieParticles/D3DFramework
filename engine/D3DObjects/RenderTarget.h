@@ -19,6 +19,8 @@ public:
 	void addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultDepth, float defaultStencil);
 	//TODO: Add function to create texture as well
 
+	void changeClearColour(int index, DirectX::XMFLOAT4 clearColour);
+
 	void clear();
 	void bind();
 	

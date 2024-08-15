@@ -1,4 +1,5 @@
 #include "RenderTarget.h"
+#include "RenderTarget.h"
 
 #include <iostream>
 
@@ -55,6 +56,14 @@ void RenderTarget::addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultD
 
 	this->defaultDepth = defaultDepth;
 	this->defaultStencil = defaultStencil;
+}
+
+void RenderTarget::changeClearColour(int index, DirectX::XMFLOAT4 clearColour)
+{
+	clearColours[index][0] = clearColour.x;
+	clearColours[index][1] = clearColour.y;
+	clearColours[index][2] = clearColour.z;
+	clearColours[index][3] = clearColour.w;
 }
 
 void RenderTarget::clear()

@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Window.h"
 
 #include <iostream>
 #include <glfw3.h>
@@ -30,7 +31,12 @@ bool Window::getWindowShouldClose()
 	return glfwWindowShouldClose(window);
 }
 
-void Window::clearBackBuffer(DirectX::XMFLOAT4 colour)
+void Window::changeBackBufferClearColour(DirectX::XMFLOAT4 newColour)
+{
+	defaultRenderTarget.changeClearColour(0, newColour);	//Default render target has only one texture
+}
+
+void Window::clearBackBuffer()
 {
 	glfwPollEvents();
 	//float clearColour[4] = { colour.x,colour.y,colour.z,colour.w };
@@ -144,7 +150,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
-	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0, 1, 0, 1.0));
+	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0, 0, 0, 1.0));
 	defaultRenderTarget.addDSV(depthBuffer, 1.0, 0.0);
 
 	//Create render target view
