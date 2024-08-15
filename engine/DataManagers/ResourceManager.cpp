@@ -1,13 +1,8 @@
 #include "ResourceManager.h"
 #include "ResourceManager.h"
-#include "ResourceManager.h"
-#include "ResourceManager.h"
-#include "ResourceManager.h"
-#include "ResourceManager.h"
-#include "ResourceManager.h"
 
 #include <iostream>
-
+#include <engine/D3DObjects/Device.h>
 
 
 ResourceManager* ResourceManager::instance = nullptr;
@@ -90,9 +85,9 @@ bool ResourceManager::addConstantBuffer(const std::string& name, D3D11_SUBRESOUR
 	}
 
 
-		//Add constant buffer to vector
-		//cBuffers.emplace_back(name, constantBuffer,dynamic);
-		ConstantBuffers.emplace_back(name, constantBuffer, dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE);
+	//Add constant buffer to vector
+	//cBuffers.emplace_back(name, constantBuffer,dynamic);
+	ConstantBuffers.emplace_back(name, constantBuffer, dynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_IMMUTABLE);
 	return true;
 }
 
@@ -102,6 +97,47 @@ bool ResourceManager::addConstantBuffer(const std::string& name, void* data, boo
 	dat.pSysMem = data;
 
 	return addConstantBuffer(name, &dat, dynamic, size);
+}
+
+bool ResourceManager::addTexture2D(const std::string& name, D3D11_SUBRESOURCE_DATA* data, D3D11_TEXTURE2D_DESC* desc, int width, int height)
+{
+	ComPtr<ID3D11Texture2D> texture;
+
+	Device* device = Device::Instance();
+
+	HRESULT errorCode = device->getDevice()->CreateTexture2D(desc, data, &texture);
+	if (FAILED(errorCode))
+	{
+		std::cerr << "Error: Failed to create texture2D\n";
+		return false;
+	}
+
+	Texture2Ds.emplace_back(name, texture, desc->Usage);
+
+	return true;
+}
+
+bool ResourceManager::addTexture2D(const std::string& name, void* data, D3D11_TEXTURE2D_DESC* desc, int width, int height)
+{
+	D3D11_SUBRESOURCE_DATA dat{};
+	dat.pSysMem = data;
+	dat.SysMemPitch = width * 4 * 4;
+
+	return addTexture2D(name, &dat, desc, width, height);
+}
+
+bool ResourceManager::addTextureSampler(const std::string& name, D3D11_SAMPLER_DESC* desc)
+{
+	ComPtr<ID3D11SamplerState> sampler;
+
+	HRESULT errorCode = Device::Instance()->getDevice()->CreateSamplerState(desc, &sampler);
+	if (FAILED(errorCode))
+	{
+		std::cerr << "Error: Failed to create sampler state\n";
+		return false;
+	}
+
+	textureSampler.emplace_back(name, sampler);
 }
 
 //Creating templates for each data type a SRV is bound to
@@ -118,6 +154,27 @@ bool ResourceManager::addShaderResourceView<StructuredBuffer>(const std::string&
 
 	ComPtr<ID3D11ShaderResourceView> SRV;
 	HRESULT errorCode = Device::Instance()->getDevice()->CreateShaderResourceView(buffer->getBuffer().Get(), desc, &SRV);
+	if (FAILED(errorCode))
+	{
+		std::cerr << "Error: Failed to create SRV\n";
+		return false;
+	}
+
+	ShaderResourceViews.emplace_back(name, SRV);
+	return true;
+}
+
+template<> 
+bool ResourceManager::addShaderResourceView<Texture2D>(const std::string& name, const std::string& resourceName, D3D11_SHADER_RESOURCE_VIEW_DESC* desc)
+{
+	Texture2D* texture = getTexture2D(resourceName);
+	if (!texture)
+	{
+		return nullptr;
+	}
+
+	ComPtr<ID3D11ShaderResourceView> SRV;
+	HRESULT errorCode = Device::Instance()->getDevice()->CreateShaderResourceView(texture->getTexture().Get(), desc, &SRV);
 	if (FAILED(errorCode))
 	{
 		std::cerr << "Error: Failed to create SRV\n";
@@ -184,6 +241,27 @@ Buffer<StructuredBuffer>* ResourceManager::getStructuredBuffer(int index)
 	return &StructuredBuffers.at(index);
 }
 
+Texture2D* ResourceManager::getTexture2D(const std::string& name)
+{
+	int index = getTexture2DIndex(name);
+	if (index == -1)
+	{
+		return nullptr;
+	}
+	return getTexture2D(index);
+}
+
+Texture2D* ResourceManager::getTexture2D(int index)
+{
+	if (index < 0 || index >= Texture2Ds.size())
+	{
+		std::cerr << "Error: Index is out of range\n";
+		return nullptr;
+	}
+
+	return &Texture2Ds.at(index);
+}
+
 SRV* ResourceManager::getShaderResourceView(const std::string& name)
 {
 	int index = getShaderResourceViewIndex(name);
@@ -247,6 +325,21 @@ int ResourceManager::getStructuredBufferIndex(const std::string& name)
 	}
 	//CBuffer not found
 	std::cerr << "Error: StructuredBuffer " << name << " not found\n";
+	return -1;
+}
+
+int ResourceManager::getTexture2DIndex(const std::string& name)
+{
+	//Locate texture2D with name "name"
+	for (int i = 0; i < Texture2Ds.size(); ++i)
+	{
+		if (Texture2Ds.at(i).getName() == name)
+		{
+			return i;
+		}
+	}
+	//CBuffer not found
+	std::cerr << "Error: texture2D " << name << " not found\n";
 	return -1;
 }
 

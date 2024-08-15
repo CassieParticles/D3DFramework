@@ -11,7 +11,8 @@
 #include <engine/D3DObjects/Pipeline/Buffers/Buffer.h>
 #include <engine/D3DObjects/Pipeline/Views/SRV.h>
 
-
+#include <engine/D3DObjects/Pipeline/Textures/Texture2D.h>
+#include <engine/D3DObjects/Pipeline/Textures/TextureSampler.h>
 
 class ResourceManager
 {
@@ -37,9 +38,16 @@ public:
 	template<typename T>
 	bool addStructuredBuffer(const std::string& name, void* data, D3D11_USAGE usage, int size);
 
+	//Create texture2Ds
+	bool addTexture2D(const std::string& name, D3D11_SUBRESOURCE_DATA* data, D3D11_TEXTURE2D_DESC* desc, int width, int height);
+	bool addTexture2D(const std::string& name, void* data, D3D11_TEXTURE2D_DESC* desc, int width, int height);
+
+	bool addTextureSampler(const std::string& name, D3D11_SAMPLER_DESC* desc);
+
 	//Create Resource views
 	template <typename T>
 	bool addShaderResourceView(const std::string& name, const std::string& resourceName, D3D11_SHADER_RESOURCE_VIEW_DESC* desc);
+
 
 	//Get vertex buffers
 	Buffer<VertexBuffer>* getVertexBuffer(const std::string& name);
@@ -53,15 +61,20 @@ public:
 	Buffer<StructuredBuffer>* getStructuredBuffer(const std::string& name);
 	Buffer<StructuredBuffer>* getStructuredBuffer(int index);
 
+	Texture2D* getTexture2D(const std::string& name);
+	Texture2D* getTexture2D(int index);
+
 	//Get Shader resource views
 	SRV* getShaderResourceView(const std::string& name);
 	SRV* getShaderResourceView(const int index);
 
-	//Get buffer indexs
+	//Get buffer indices
 	int getVertexBufferIndex(const std::string& name);
 	int getConstantBufferIndex(const std::string& name);
 	int getStructuredBufferIndex(const std::string& name);
 
+	//Get texture indices
+	int getTexture2DIndex(const std::string& name);
 	//Get view indexs
 	int getShaderResourceViewIndex(const std::string& name);
 protected:
@@ -76,6 +89,12 @@ protected:
 
 	//Vectors for Views
 	std::vector<SRV> ShaderResourceViews;
+
+	//Vectors for textures
+	std::vector<Texture2D> Texture2Ds;
+
+	//Vectors for texture samplers
+	std::vector<TextureSampler> textureSampler;
 };
 
 //These need to be defined in the header, since they are templates

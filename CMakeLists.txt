@@ -15,6 +15,9 @@ list(APPEND Engine "engine/D3DObjects/Pipeline/VertexLayout.cpp")
 
 list(APPEND Engine "engine/D3DObjects/Pipeline/Views/SRV.cpp")
 
+list(APPEND Engine "engine/D3DObjects/Pipeline/Textures/Texture2D.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/Textures/TextureSampler.cpp")
+
 list(APPEND Engine "engine/DataManagers/ResourceManager.cpp")
 
 add_library(D3D11Framework ${Engine})
