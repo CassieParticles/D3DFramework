@@ -9,6 +9,7 @@
 #include <glfw3native.h>
 
 #include <engine/D3DObjects/Device.h>
+#include <engine/DataManagers/CBufferManager.h>
 
 Window* Window::instance = nullptr;
 
@@ -184,11 +185,19 @@ void Window::setSize(int widht, int height)
 {
 	this->width = width;
 	this->height = height;
+
+	int index = CBufferManager::Instance()->getCBufferID("WindowSize");
+	if (index != -1)
+	{
+		int newSize[2] = { width,height };
+		CBufferManager::Instance()->getCBuffer(index)->updateCBuffer(newSize, sizeof(newSize));
+	}
 }
 
 void Window::handleResize(GLFWwindow* window, int width, int height)
 {
 	static_cast<Window*>(glfwGetWindowUserPointer(window))->setSize(width, height);
+
 }
 
 void Window::bindRTV()

@@ -34,6 +34,9 @@ public:
 
 	void bindRTV();
 
+	int getWidth() { return width; }
+	int getHeight() { return height; }
+
 protected:
 	static Window* instance;
 
