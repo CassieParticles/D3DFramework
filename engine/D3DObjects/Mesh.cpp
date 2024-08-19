@@ -1,4 +1,6 @@
 #include "Mesh.h"
+#include "Mesh.h"
+#include "Mesh.h"
 
 #include <iostream>
 
@@ -79,6 +81,16 @@ void Mesh::addIndexBuffer(int* data, bool dynamic, int size, int indexOffset)
 	D3D11_SUBRESOURCE_DATA dat;
 	dat.pSysMem = data;
 	addIndexBuffer(&dat, dynamic, size, indexOffset);
+}
+
+Microsoft::WRL::ComPtr<ID3D11Buffer>& Mesh::getVertexBuffer(int index)
+{
+	return vertexBuffers[index];
+}
+
+Microsoft::WRL::ComPtr<ID3D11Buffer>& Mesh::getIndexBuffer()
+{
+	return indexBuffer;
 }
 
 void Mesh::setBuffers()

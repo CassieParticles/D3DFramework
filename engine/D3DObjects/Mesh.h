@@ -20,6 +20,9 @@ public:
 	void addIndexBuffer(D3D11_SUBRESOURCE_DATA* data, bool dynamic, int size, int indexOffset);
 	void addIndexBuffer(int* data, bool dynamic, int size, int indexOffset);
 
+	ComPtr<ID3D11Buffer>& getVertexBuffer(int index);
+	ComPtr<ID3D11Buffer>& getIndexBuffer();
+
 	virtual void setBuffers();
 protected:
 	//Vertex buffer data
