@@ -181,7 +181,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 	return true;
 }
 
-void Window::setSize(int widht, int height)
+void Window::setSize(int width, int height)
 {
 	this->width = width;
 	this->height = height;
