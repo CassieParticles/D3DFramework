@@ -1,11 +1,11 @@
 #pragma once
 
-#include <engine/Engine/Window.h>
+#include <chrono>
 
 class TimeManager
 {
 public:
-	TimeManager(Window* window = Window::Instance());
+	TimeManager();
 
 	void Start();
 	void Tick();
@@ -15,11 +15,14 @@ public:
 	double MSPF();
 	double ElapsedTime();
 protected:
-	Window* window;
 
-	//All times are in ms
-	double previousTime;	//Time last frame
-	double currentTime;		//Time this frame
+	////All times are in ms
+	//double previousTime;	//Time last frame
+	//double currentTime;		//Time this frame
+
+	std::chrono::steady_clock::time_point previousTime;
+	std::chrono::steady_clock::time_point currentTime;
+
 	double elapsedTime;		//Time since start was called
 
 	int frameCount;	//Number of frames since start

@@ -1,9 +1,8 @@
 #include "TimeManager.h"
 
-#include <glfw3.h>
+#include <chrono>
 
-
-TimeManager::TimeManager(Window* window) :window{ window }, previousTime{}, currentTime{}, elapsedTime{}, frameCount{ 0 }
+TimeManager::TimeManager() : previousTime{}, currentTime{}, elapsedTime{}, frameCount{ 0 }
 {
 }
 
@@ -11,21 +10,22 @@ void TimeManager::Start()
 {
 	elapsedTime = 0;
 	frameCount = 0;
-	previousTime = glfwGetTime();
-	currentTime = glfwGetTime();
+	previousTime = std::chrono::high_resolution_clock::now();
+	currentTime = std::chrono::high_resolution_clock::now();
 }
 
 void TimeManager::Tick()
 {
 	previousTime = currentTime;
-	currentTime = glfwGetTime();
+	currentTime = std::chrono::high_resolution_clock::now();
 	elapsedTime += DeltaTime();
 	++frameCount;
 }
 
 double TimeManager::DeltaTime()
 {
-	return currentTime - previousTime;
+	long long microTime = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - previousTime).count();
+	return microTime / 1000000.0;
 }
 
 double TimeManager::FPS()
