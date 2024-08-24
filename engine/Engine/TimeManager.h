@@ -14,7 +14,13 @@ public:
 	double FPS();
 	double MSPF();
 	double ElapsedTime();
+
+	//Set universal time manager to this time manager
+	void setUniversalTimeManager() { universalTimeManager = this; }
+
+	static TimeManager* getTimeManager() { return universalTimeManager; }
 protected:
+	static TimeManager* universalTimeManager;
 
 	////All times are in ms
 	//double previousTime;	//Time last frame

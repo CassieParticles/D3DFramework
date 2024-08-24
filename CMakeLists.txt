@@ -1,5 +1,7 @@
 ﻿list(APPEND Engine "engine/Engine/Window.cpp")
 list(APPEND Engine "engine/Engine/TimeManager.cpp")
+list(APPEND Engine "engine/Engine/Timer.cpp")
+list(APPEND Engine "engine/Engine/Delay.cpp")
 
 list(APPEND Engine "engine/Engine/Input/Input.cpp")
 list(APPEND Engine "engine/Engine/Input/InputAction.cpp")

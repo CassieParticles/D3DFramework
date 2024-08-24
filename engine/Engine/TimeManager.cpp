@@ -2,6 +2,8 @@
 
 #include <chrono>
 
+TimeManager* TimeManager::universalTimeManager = nullptr;
+
 TimeManager::TimeManager() : previousTime{}, currentTime{}, elapsedTime{}, frameCount{ 0 }
 {
 }
