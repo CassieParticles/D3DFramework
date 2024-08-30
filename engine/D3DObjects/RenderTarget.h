@@ -21,6 +21,9 @@ public:
 
 	void changeClearColour(int index, DirectX::XMFLOAT4 clearColour);
 
+	ComPtr<ID3D11Texture2D>* getRenderTexture(int index) { return renderTextures + index; }
+	ComPtr<ID3D11Texture2D>* getDepthTexture() { return &depthStencilTexture; }
+
 	void clear();
 	void bind();
 	
