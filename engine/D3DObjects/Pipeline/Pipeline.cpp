@@ -88,10 +88,15 @@ bool Pipeline::compileShader(const std::wstring& filePath, ComPtr<ID3DBlob>& sha
 
 	if (FAILED(errorCode))
 	{
+
 		std::cerr << "Failed to compile shader\n";
 		if (errorBlob != nullptr)
 		{
 			std::cerr << "Compilation message" << static_cast<const char*>(errorBlob->GetBufferPointer()) << "\n";
+		}
+		if (errorCode == 0x80070003)
+		{
+			std::cerr << "Failed to find shader at path specified";
 		}
 		return false;
 	}

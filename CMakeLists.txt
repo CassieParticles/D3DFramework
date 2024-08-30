@@ -16,6 +16,7 @@ list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/VertexLayout.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/CBuffer.cpp")
+list(APPEND Engine "engine/D3DObjects/Pipeline/RenderScreen.cpp")
 
 list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
 
@@ -46,3 +47,10 @@ target_link_libraries(D3D11Framework d3dcompiler)
 target_link_libraries(D3D11Framework winmm)
 target_link_libraries(D3D11Framework dxguid)
 
+#Copy shaders into the output directory, to prevent them being copied manually
+add_custom_target(copyEngineShaders ALL
+COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_LIST_DIR}/engine/shaders" "${CMAKE_BINARY_DIR}/shaders"
+COMMENT "Copied engine shaders to output directory" VERBATIM
+)
+
+add_dependencies(D3D11Framework copyEngineShaders)
