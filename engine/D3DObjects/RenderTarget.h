@@ -14,7 +14,8 @@ public:
 	RenderTarget() = default;
 	~RenderTarget() = default;
 
-	void addRTV(const ComPtr<ID3D11Texture2D>& texture,DirectX::XMFLOAT4 clearColour);
+	void addRTV(const ComPtr<ID3D11Texture2D>& texture,DXGI_FORMAT textureFormat, DirectX::XMFLOAT4 clearColour, bool addSRV);
+	void addRenderTargetSRV(int index);
 
 	void addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultDepth, float defaultStencil);
 	//TODO: Add function to create texture as well
@@ -30,12 +31,15 @@ public:
 protected:
 	//Render target views
 	ComPtr<ID3D11RenderTargetView> RTVs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};
+	ComPtr<ID3D11ShaderResourceView> SRVs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};
 	ComPtr<ID3D11Texture2D> renderTextures[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};
 	float clearColours[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT][4]{};
+	DXGI_FORMAT textureFormats[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};
 	int RTVCount{};
 
 	//Depth stencil views
 	ComPtr<ID3D11DepthStencilView> DSV{};
+	ComPtr<ID3D11ShaderResourceView> depthSRV{};
 	ComPtr<ID3D11Texture2D> depthStencilTexture{};
 	float defaultDepth{};
 	char defaultStencil{};

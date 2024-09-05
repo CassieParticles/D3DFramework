@@ -5,7 +5,7 @@
 
 #include <engine/D3DObjects/Device.h>
 
-void RenderTarget::addRTV(const ComPtr<ID3D11Texture2D>& texture, DirectX::XMFLOAT4 clearColour)
+void RenderTarget::addRTV(const ComPtr<ID3D11Texture2D>& texture, DXGI_FORMAT textureFormat, DirectX::XMFLOAT4 clearColour, bool addSRV)
 {
 	if (RTVCount >= D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
 	{
@@ -14,7 +14,7 @@ void RenderTarget::addRTV(const ComPtr<ID3D11Texture2D>& texture, DirectX::XMFLO
 	}
 
 	Device* device = Device::Instance();
-	
+
 	ComPtr<ID3D11RenderTargetView> rtv;
 
 	HRESULT errorCode = device->getDevice()->CreateRenderTargetView(texture.Get(), 0, &rtv);
@@ -31,7 +31,46 @@ void RenderTarget::addRTV(const ComPtr<ID3D11Texture2D>& texture, DirectX::XMFLO
 	clearColours[RTVCount][1] = clearColour.y;
 	clearColours[RTVCount][2] = clearColour.z;
 	clearColours[RTVCount][3] = clearColour.w;
+	textureFormats[RTVCount] = textureFormat;
+
+	if (addSRV)
+	{
+		addRenderTargetSRV(RTVCount);
+	}
+
 	++RTVCount;
+}
+
+void RenderTarget::addRenderTargetSRV(int index)
+{
+	//Ensure texture exists and doesn't already have an SRV
+	if (index < 0 || index > RTVCount)
+	{
+		std::cerr << "Error: Index out of range\n";
+		return;
+	}
+	if (SRVs[index])
+	{
+		std::cerr << "Error: SRV already exists\n";
+		return;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
+	desc.Texture2D.MipLevels = -1;
+	desc.Texture2D.MostDetailedMip = 0;
+	desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	desc.Format = textureFormats[index];
+	
+	ComPtr<ID3D11ShaderResourceView> SRV;
+
+	HRESULT errCode = Device::Instance()->getDevice()->CreateShaderResourceView(renderTextures[index].Get(), &desc, &SRV);
+	if (FAILED(errCode))
+	{
+		std::cerr << "Failed to create shader resource view\n";
+		return;
+	}
+
+	SRVs[index] = SRV;
 }
 
 void RenderTarget::addDSV(const ComPtr<ID3D11Texture2D>& texture, float defaultDepth, float defaultStencil)
@@ -75,7 +114,10 @@ void RenderTarget::clear()
 		device->getDeviceContext()->ClearRenderTargetView(RTVs[i].Get(), clearColours[i]);
 	}
 
-	device->getDeviceContext()->ClearDepthStencilView(DSV.Get(), D3D11_CLEAR_DEPTH, defaultDepth, defaultStencil);
+	if (DSV)
+	{
+		device->getDeviceContext()->ClearDepthStencilView(DSV.Get(), D3D11_CLEAR_DEPTH, defaultDepth, defaultStencil);
+	}
 }
 
 void RenderTarget::bind()

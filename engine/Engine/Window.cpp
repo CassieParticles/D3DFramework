@@ -151,7 +151,7 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 		return false;
 	}
 
-	defaultRenderTarget.addRTV(backBuffer, DirectX::XMFLOAT4(0, 0, 0, 1.0));
+	defaultRenderTarget.addRTV(backBuffer, DXGI_FORMAT_B8G8R8A8_UNORM, DirectX::XMFLOAT4(0, 0, 0, 1.0),false);
 	defaultRenderTarget.addDSV(depthBuffer, 1.0, 0.0);
 
 	//Create render target view
