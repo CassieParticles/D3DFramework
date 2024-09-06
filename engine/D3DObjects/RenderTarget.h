@@ -14,6 +14,8 @@ public:
 	RenderTarget() = default;
 	~RenderTarget() = default;
 
+	void changeViewport(D3D11_VIEWPORT viewport) { this->viewport = viewport; }
+
 	void addRTV(const ComPtr<ID3D11Texture2D>& texture,DXGI_FORMAT textureFormat, DirectX::XMFLOAT4 clearColour, bool addSRV);
 	void addRenderTargetSRV(int index);
 
@@ -32,6 +34,8 @@ public:
 	void bind();
 	
 protected:
+	D3D11_VIEWPORT viewport{};
+
 	//Render target views
 	ComPtr<ID3D11RenderTargetView> RTVs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};
 	ComPtr<ID3D11ShaderResourceView> SRVs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]{};

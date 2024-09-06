@@ -1,5 +1,6 @@
 #include "RenderTarget.h"
 #include "RenderTarget.h"
+#include "RenderTarget.h"
 
 #include <iostream>
 
@@ -128,4 +129,6 @@ void RenderTarget::bind()
 		tempArr[i] = RTVs->Get();
 	}
 	Device::Instance()->getDeviceContext()->OMSetRenderTargets(RTVCount, tempArr, DSV.Get());
+
+	Device::Instance()->getDeviceContext()->RSSetViewports(1, &viewport);
 }

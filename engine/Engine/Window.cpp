@@ -154,6 +154,8 @@ bool Window::createWindow(const std::string& windowTitle, int windowWidth, int w
 	defaultRenderTarget.addRTV(backBuffer, DXGI_FORMAT_B8G8R8A8_UNORM, DirectX::XMFLOAT4(0, 0, 0, 1.0),false);
 	defaultRenderTarget.addDSV(depthBuffer, 1.0, 0.0);
 
+	defaultRenderTarget.changeViewport({ 0,0,static_cast<float>(width),static_cast<float>(height),0,1 });
+
 	//Create render target view
 	errorCode = device->getDevice()->CreateRenderTargetView(backBuffer.Get(), 0, &renderTargetView);
 	if (FAILED(errorCode))
@@ -192,6 +194,8 @@ void Window::setSize(int width, int height)
 		int newSize[2] = { width,height };
 		CBufferManager::Instance()->getCBuffer(index)->updateCBuffer(newSize, sizeof(newSize));
 	}
+
+	//this->defaultRenderTarget.changeViewport({ 0,0,static_cast<float>(width),static_cast<float>(height),0,1 });
 }
 
 void Window::handleResize(GLFWwindow* window, int width, int height)
@@ -207,7 +211,7 @@ void Window::bindRTV()
 
 	defaultRenderTarget.bind();
 
-	D3D11_VIEWPORT port = { 0,0,width,height ,0,1 };
+	//D3D11_VIEWPORT port = { 0,0,width,height ,0,1 };
 
-	device->getDeviceContext()->RSSetViewports(1, &port);
-}
+	//device->getDeviceContext()->RSSetViewports(1, &port);
+} 
