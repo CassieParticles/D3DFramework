@@ -11,15 +11,11 @@ class RenderScreen
 	template <typename T>
 	using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
-	static RenderScreen* Instance();
+	RenderScreen(const std::wstring& fragmentShader = L"shaders/EngineShaders/RenderScreen/fragment.hlsl");
+	~RenderScreen() = default;
 
 	void renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV);
 protected:
-	static RenderScreen* instance;
-
-	RenderScreen();
-	~RenderScreen() = default;
-
 	ComPtr<ID3D11Buffer> vertexPosition;
 	ComPtr<ID3D11Buffer> vertexUV;
 	ComPtr<ID3D11Buffer> indices;

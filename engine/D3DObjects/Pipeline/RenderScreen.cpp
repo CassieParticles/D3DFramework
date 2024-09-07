@@ -3,16 +3,6 @@
 #include <engine/D3DObjects/Device.h>
 #include <DirectXMath.h>
 
-RenderScreen* RenderScreen::instance = nullptr;
-
-RenderScreen* RenderScreen::Instance()
-{
-	if (instance == nullptr)
-	{
-		instance = new RenderScreen();
-	}
-	return instance;
-}
 
 void RenderScreen::renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV)
 {
@@ -48,7 +38,7 @@ void RenderScreen::renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV)
 	deviceContext->DrawIndexed(6, 0, 0);
 }
 
-RenderScreen::RenderScreen()
+RenderScreen::RenderScreen(const std::wstring& fragmentShader)
 {
 	//Constants for vertices
 	constexpr float vertexPos[8]
@@ -134,7 +124,7 @@ RenderScreen::RenderScreen()
 
 	//Set up and compile pipeline
 	pipeline.addVertexShader(L"shaders/EngineShaders/RenderScreen/vertex.hlsl");
-	pipeline.addPixelShader(L"shaders/EngineShaders/RenderScreen/fragment.hlsl");
+	pipeline.addPixelShader(fragmentShader);
 
 	pipeline.setPrimitiveType(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
