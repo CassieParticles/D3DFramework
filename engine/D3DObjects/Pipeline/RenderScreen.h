@@ -15,6 +15,9 @@ public:
 	~RenderScreen() = default;
 
 	void renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV);
+
+	//TODO: Make better way of handling pipeline
+	Pipeline& getPipeline() { return pipeline; }
 protected:
 	ComPtr<ID3D11Buffer> vertexPosition;
 	ComPtr<ID3D11Buffer> vertexUV;

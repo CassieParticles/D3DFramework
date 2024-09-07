@@ -1,6 +1,7 @@
 #include "TimeManager.h"
 
 #include <chrono>
+#include <engine/DataManagers/CBufferManager.h>
 
 TimeManager* TimeManager::universalTimeManager = nullptr;
 
@@ -22,6 +23,12 @@ void TimeManager::Tick()
 	currentTime = std::chrono::high_resolution_clock::now();
 	elapsedTime += DeltaTime();
 	++frameCount;
+	int index = CBufferManager::Instance()->getCBufferID("Timer");
+	if (index != 0)
+	{
+		float timeData[2] = { DeltaTime(),ElapsedTime() };
+		CBufferManager::Instance()->getCBuffer(index)->updateCBuffer(timeData, sizeof(timeData));
+	}
 }
 
 double TimeManager::DeltaTime()

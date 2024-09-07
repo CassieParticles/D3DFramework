@@ -109,9 +109,9 @@ RenderScreen::RenderScreen(const std::wstring& fragmentShader)
 	D3D11_SAMPLER_DESC sDesc{};
 
 	sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	sDesc.MipLODBias = 0;
 	sDesc.MaxAnisotropy = 1;
 	sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
