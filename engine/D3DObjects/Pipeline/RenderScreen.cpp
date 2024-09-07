@@ -36,6 +36,8 @@ void RenderScreen::renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV)
 	pipeline.bind();
 
 	deviceContext->DrawIndexed(6, 0, 0);
+
+	//deviceContext->PSSetShaderResources(0, 1, nullptr);
 }
 
 RenderScreen::RenderScreen(const std::wstring& fragmentShader)
