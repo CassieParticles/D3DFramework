@@ -11,6 +11,7 @@ list(APPEND Engine "engine/Engine/Input/InputActionManager.cpp")
 list(APPEND Engine "engine/D3DObjects/RenderTarget.cpp")
 list(APPEND Engine "engine/D3DObjects/Device.cpp")
 list(APPEND Engine "engine/D3DObjects/Mesh.cpp")
+list(APPEND Engine "engine/D3DObjects/ImageTexture.cpp")
 
 list(APPEND Engine "engine/D3DObjects/Pipeline/Pipeline.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/RasterizerState.cpp")
@@ -19,6 +20,7 @@ list(APPEND Engine "engine/D3DObjects/Pipeline/CBuffer.cpp")
 list(APPEND Engine "engine/D3DObjects/Pipeline/RenderScreen.cpp")
 
 list(APPEND Engine "engine/DataManagers/CBufferManager.cpp")
+list(APPEND Engine "engine/DataManagers/AssetLoader.cpp")
 
 add_library(D3D11Framework ${Engine})
 
