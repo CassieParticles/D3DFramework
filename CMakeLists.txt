@@ -1,4 +1,7 @@
-﻿list(APPEND Engine "engine/Engine/Window.cpp")
+﻿
+
+
+list(APPEND Engine "engine/Engine/Window.cpp")
 list(APPEND Engine "engine/Engine/TimeManager.cpp")
 list(APPEND Engine "engine/Engine/Timer.cpp")
 list(APPEND Engine "engine/Engine/Delay.cpp")
@@ -30,6 +33,11 @@ target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
 
 target_include_directories(D3D11Framework PUBLIC "${CMAKE_CURRENT_LIST_DIR}/libraries/includes")
 
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+	target_compile_definitions(ParticleSystem PRIVATE "DEBUG")
+else()
+	target_compile_definitions(ParticleSystem PRIVATE "RELEASE")
+endif()
 
 #Add GLFW for windows
 add_library(GLFW STATIC IMPORTED GLOBAL)

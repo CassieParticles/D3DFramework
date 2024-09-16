@@ -17,7 +17,13 @@ Device* Device::InitializeDevices()
 Device::Device()
 {
 	//TODO: Add flags so this is not debug mode when compiled on release
+#ifdef DEBUG
 	constexpr D3D11_CREATE_DEVICE_FLAG debugFlag = D3D11_CREATE_DEVICE_DEBUG;
+	std::cout << "Debug\n";
+#else 
+	constexpr D3D11_CREATE_DEVICE_FLAG debugFlag = (D3D11_CREATE_DEVICE_FLAG)0;
+	
+#endif
 
 	//Set up the D3D device and device context
 	constexpr D3D_FEATURE_LEVEL deviceFeatureLevel = D3D_FEATURE_LEVEL_11_0;
