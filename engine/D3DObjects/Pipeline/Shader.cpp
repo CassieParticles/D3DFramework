@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <d3dcompiler.h>
-#include <Engine/D3DObjects/Device.h>
+
 
 bool compileShader(const std::wstring& filePath, Microsoft::WRL::ComPtr<ID3DBlob>& shaderByteCode, const std::string& profile, const std::string& entryFunction)
 {

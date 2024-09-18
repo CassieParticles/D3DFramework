@@ -4,6 +4,7 @@
 #include <d3d11.h>
 
 #include <engine/D3DObjects/Pipeline/PipelineStages.h>
+#include <Engine/D3DObjects/Device.h>
 
 template<Shaders T> class Shader{};
 
