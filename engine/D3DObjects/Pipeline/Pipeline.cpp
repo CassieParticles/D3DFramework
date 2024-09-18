@@ -5,6 +5,17 @@
 
 #include <engine/D3DObjects/Device.h>
 #include <engine/DataManagers/CBufferManager.h>
+#include <engine/DataManagers/ShaderManager.h>
+
+void Pipeline::addVertexShader(const std::string& name)
+{
+	vertexShader = ShaderManager::Instance()->getVertexShader(name);
+}
+
+void Pipeline::addPixelShader(const std::string& name)
+{
+	pixelShader = ShaderManager::Instance()->getPixelShader(name);
+}
 
 void Pipeline::bindConstantBuffer(const std::string& name, int stagesBound, int cRegister)
 {
@@ -18,30 +29,10 @@ bool Pipeline::compilePipeline()
 {
 	Device* device = Device::Instance();
 
-	//Add vertex shader
-	if (compileShader(vertexShaderPath, VSByteCode, "vs_5_0", "Main"))
-	{
-		if (FAILED(device->getDevice()->CreateVertexShader(VSByteCode->GetBufferPointer(), VSByteCode->GetBufferSize(), nullptr, &vertexShader)))
-		{
-			std::cerr<<"Failed to create vertex shader\n";
-			return false;
-		}
-	}
-	//TODO: Add other shader stages
-
-	//Add pixel shader
-	ComPtr<ID3DBlob> PSByteCode;
-	if (compileShader(pixelShaderPath, PSByteCode, "ps_5_0", "Main"))
-	{
-		if (FAILED(device->getDevice()->CreatePixelShader(PSByteCode->GetBufferPointer(), PSByteCode->GetBufferSize(), nullptr, &pixelShader)))
-		{
-			std::cerr<<"Failed to create pixel shader\n";
-			return false;
-		}
-	}
+	
 
 	//Create input layout (must be done after vertex shader is compiled)
-	vertexLayout.createLayout(VSByteCode);
+	vertexLayout.createLayout(vertexShader->getByteCode());
 	//Create rasterizer state
 	rasterizerState.createState();
 
@@ -66,8 +57,8 @@ void Pipeline::bind()
 	device->getDeviceContext()->IASetPrimitiveTopology(primitiveType);
 
 	//Bind shader stages
-	device->getDeviceContext()->VSSetShader(vertexShader.Get(), nullptr, 0);
-	device->getDeviceContext()->PSSetShader(pixelShader.Get(), nullptr, 0);
+	vertexShader->bindShader();
+	pixelShader->bindShader();
 
 	//Bind the constant buffers
 	for(int i=0;i<CBuffers.size();++i)

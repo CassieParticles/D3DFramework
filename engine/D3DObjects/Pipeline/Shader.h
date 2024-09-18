@@ -2,6 +2,7 @@
 #include <string>
 #include <wrl.h>
 #include <d3d11.h>
+#include <iostream>
 
 #include <engine/D3DObjects/Pipeline/PipelineStages.h>
 #include <Engine/D3DObjects/Device.h>
@@ -15,6 +16,9 @@ class Shader<VERTEX_SHADER>
 	using ComPtr = Microsoft::WRL::ComPtr<S>;
 public:
 	Shader(const std::string& name, const std::wstring& filePath);
+	~Shader() {
+		std::cout << "Error\n"; 
+	}
 
 	const std::string& getName() { return name; }
 	ComPtr<ID3DBlob>& getByteCode() { return byteCode; }
@@ -34,6 +38,9 @@ class Shader<PIXEL_SHADER>
 	using ComPtr = Microsoft::WRL::ComPtr<S>;
 public:
 	Shader(const std::string& name, const std::wstring& filePath);
+	~Shader() {
+		std::cout << "Error\n"; 
+	}
 
 	const std::string& getName() { return name; }
 

@@ -2,6 +2,8 @@
 
 #include <engine/D3DObjects/Device.h>
 #include <DirectXMath.h>
+#include <engine/DataManagers/ShaderManager.h>
+#include <cstdlib>
 
 
 void RenderScreen::renderTexture(ComPtr<ID3D11ShaderResourceView>& textureSRV)
@@ -125,8 +127,19 @@ RenderScreen::RenderScreen(const std::wstring& fragmentShader)
 	Device::Instance()->getDevice()->CreateSamplerState(&sDesc, &textureSampler);
 
 	//Set up and compile pipeline
-	pipeline.addVertexShader(L"shaders/EngineShaders/RenderScreen/vertex.hlsl");
-	pipeline.addPixelShader(fragmentShader);
+
+	int len = wcstombs(nullptr, fragmentShader.c_str(), INT_MAX) + 1;
+
+	char* arr = new char[len];
+	wcstombs(arr, fragmentShader.c_str(), INT_MAX);
+	std::string fragmentShaderStr{ arr };
+	delete[] arr;
+
+	ShaderManager::Instance()->addVertexShader("shaders/EngineShaders/RenderScreen/vertex.hlsl", L"shaders/EngineShaders/RenderScreen/vertex.hlsl");
+	ShaderManager::Instance()->addPixelShader(fragmentShaderStr, fragmentShader);
+
+	pipeline.addVertexShader("shaders/EngineShaders/RenderScreen/vertex.hlsl");
+	pipeline.addPixelShader(fragmentShaderStr);
 
 	pipeline.setPrimitiveType(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	

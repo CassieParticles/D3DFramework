@@ -10,17 +10,20 @@ class ShaderManager
 public:
 	static ShaderManager* instance;
 
-	static ShaderManager* getInstance();
+	static ShaderManager* Instance();
 
-	void addVertexShader(const std::string& name, const std::wstring& filePath);
-	void addPixelShader(const std::string& name, const std::wstring& filePath);
+	bool addVertexShader(const std::string& name, const std::wstring& filePath);
+	bool addPixelShader(const std::string& name, const std::wstring& filePath);
 
 	Shader<VERTEX_SHADER>* getVertexShader(const std::string& name);
 	Shader<PIXEL_SHADER>* getPixelShader(const std::string& name);
 
+	bool vertexShaderExists(const std::string& name);
+	bool pixelShaderExists(const std::string& name);
+
 protected:
 
-	std::vector<Shader<VERTEX_SHADER>> vertexShaders;
-	std::vector<Shader<PIXEL_SHADER>> pixelShaders;
+	std::vector<Shader<VERTEX_SHADER>*> vertexShaders;
+	std::vector<Shader<PIXEL_SHADER>*> pixelShaders;
 
 };

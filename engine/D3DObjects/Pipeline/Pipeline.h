@@ -9,6 +9,7 @@
 #include <engine/D3DObjects/Pipeline/RasterizerState.h>
 #include <engine/D3DObjects/Pipeline/CBuffer.h>
 #include <engine/D3DObjects/Pipeline/PipelineStages.h>
+#include <engine/D3DObjects/Pipeline/Shader.h>
 
 class Pipeline
 {
@@ -19,8 +20,8 @@ public:
 	~Pipeline() = default;
 
 	//Adding shaders
-	void addVertexShader(const std::wstring& vertexShaderPath) { this->vertexShaderPath = vertexShaderPath; }
-	void addPixelShader(const std::wstring& pixelShaderPath) { this->pixelShaderPath = pixelShaderPath; }
+	void addVertexShader(const std::string& name);
+	void addPixelShader(const std::string& name);
 
 	void setPrimitiveType(D3D_PRIMITIVE_TOPOLOGY primitiveType) { this->primitiveType = primitiveType; }
 
@@ -42,9 +43,9 @@ protected:
 	std::wstring vertexShaderPath{};
 	std::wstring pixelShaderPath{};
 
-	ComPtr<ID3D11VertexShader> vertexShader{};
-	ComPtr<ID3D11PixelShader> pixelShader{};
-	ComPtr<ID3DBlob> VSByteCode{};
+	Shader<VERTEX_SHADER>* vertexShader{};
+	Shader<PIXEL_SHADER>* pixelShader{};
+
 
 	D3D11_PRIMITIVE_TOPOLOGY primitiveType{};
 
