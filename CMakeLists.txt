@@ -1,7 +1,4 @@
-﻿
-
-
-list(APPEND Engine "engine/Engine/Window.cpp")
+﻿list(APPEND Engine "engine/Engine/Window.cpp")
 list(APPEND Engine "engine/Engine/TimeManager.cpp")
 list(APPEND Engine "engine/Engine/Timer.cpp")
 list(APPEND Engine "engine/Engine/Delay.cpp")
@@ -47,16 +44,16 @@ set_property(TARGET GLFW PROPERTY IMPORTED_LOCATION "${CMAKE_CURRENT_LIST_DIR}/l
 target_link_libraries(D3D11Framework GLFW)
 
 #Add Direct3D11
-find_library("d3d11.lib" PATH "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22000.0/")
-find_library("dxgi.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
-find_library("d3dcompiler.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
-find_library("winmm.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
-find_library("dxguid.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("d3d11.lib" PATH "$ENV{DXSDK_DIR}/Lib")
+find_library("dxgi.lib" PATH "$ENV{DXSDK_DIR}/Lib")
+find_library("d3dcompiler.lib" PATH "$ENV{DXSDK_DIR}/Lib")
+#find_library("winmm.lib" PATH "C:/Program Files( x86)/Windows Kits/10/Lib/10.0.22000.0/")
+find_library("dxguid.lib" PATH "$ENV{DXSDK_DIR}/Lib")
 
 target_link_libraries(D3D11Framework d3d11)
 target_link_libraries(D3D11Framework dxgi)
 target_link_libraries(D3D11Framework d3dcompiler)
-target_link_libraries(D3D11Framework winmm)
+#target_link_libraries(D3D11Framework winmm)
 target_link_libraries(D3D11Framework dxguid)
 
 #Copy shaders into the output directory, to prevent them being copied manually
